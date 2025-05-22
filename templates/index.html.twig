@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraftLink - Accueil</title>
+    <link rel="stylesheet" href="{{ asset('asset/css/style.css') }}">
+</head>
+<body>
+<header id="header" class="full-height">
+    <div class="logo">
+        <img src="{{ asset('asset/images/logo-craftlink.png') }}" alt="Logo CraftLink">
+    </div>
+    <nav class="navigation">
+        <ul>
+            <li><a href="#article1">Trouver un artisan près de chez vous</a></li>
+            <li><a href="#article2">En savoir plus sur CraftLink</a></li>
+        </ul>
+    </nav>
+    <div class="search-bar">
+        <input type="text" placeholder="Rechercher un artisan..." class="search-input">
+        <input type="text" placeholder="Entrer votre localisation..." class="zipcode-input">
+    </div>
+    <div class="auth-buttons">
+        <a href="{{ path('login') }}"><button class="login-btn">Connexion</button></a>
+    </div>
+</header>
+
+<main id="main-content">
+    <section class="registration-section">
+        <h2>Inscrivez-vous selon votre profil</h2>
+        <p>Choisissez le type de compte que vous souhaitez créer :</p>
+        <div class="registration-links">
+            <a href="{{ path('register_artisan') }}" class="btn-register">Inscription Artisan</a>
+            <a href="{{ path('register_client') }}" class="btn-register">Inscription Client</a>
+        </div>
+    </section>
+    <article id="article1" class="article">
+        <div class="article-image">
+            <img src="{{ asset('asset/images/presentation-site.jpg') }}" alt="Présentation de CraftLink">
+        </div>
+        <h2>CraftLink : Trouver un artisan facilement</h2>
+        <p>CraftLink permet aux utilisateurs de rechercher rapidement des artisans qualifiés proches de chez eux.
+            En quelques clics, il est possible de trouver un professionnel selon ses besoins et sa localisation.
+            Ce service simplifié favorise une mise en relation rapide et efficace.</p>
+    </article>
+    <article id="article2" class="article">
+        <div class="article-image">
+            <img src="{{ asset('asset/images/presentation-yohann.jpg') }}" alt="À propos de Yohann">
+        </div>
+        <h2>À propos de CraftLink</h2>
+        <p>Découvrez l’histoire et les ambitions de CraftLink, une plateforme conçue pour valoriser les artisans et
+            faciliter l’accès à leurs services.</p>
+    </article>
+</main>
+</body>
+</html>
