@@ -21,8 +21,8 @@ security:
             form_login:
                 login_path: login
                 check_path: login
-                username_parameter: identifier # Accepte email ou numéro de téléphone pour la connexion
-                default_target_path: redirect_after_login
+                success_handler: App\Security\LoginSuccessHandler
+#                username_parameter: identifier # Accepte email ou numéro de téléphone pour la connexion
 
             logout:
                 path: logout

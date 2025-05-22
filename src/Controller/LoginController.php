@@ -1,49 +1,42 @@
 <?php
 
-
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Security;
 
 class LoginController extends AbstractController
 {
     #[Route('/login', name: 'login', methods: ['GET', 'POST'])]
-    public function displayLogin(AuthenticationUtils $authentication): Response
+    public function displayLogin(AuthenticationUtils $authentication, Request $request): Response
     {
-        $error= $authentication->getLastAuthenticationError();
-        return $this->render('login.html.twig',[
-            'error' => $error
-    ]);
-
-    }
-
-    #[Route('/redirect', name: 'redirect_after_login')]
-    public function redirectAfterLogin(): Response
-    {
-        $user = $this->getUser();
-
-        if ($user->getRoles() == 'ROLE_CLIENT') {
-            return $this->redirectToRoute('client-homeboard');
-        } elseif ($user->getRoles() == 'ROLE_ARTISAN') {
-            return $this->redirectToRoute('artisan-homeboard');
-        } elseif ($user->getRoles() == 'ROLE_ADMIN') {
-            return $this->redirectToRoute('admin-homeboard');
+        $error = $authentication->getLastAuthenticationError();
+        if ($error) {
+            $error = $error->getMessage();
         }
-        // ... (other roles)
 
-        return $this->redirectToRoute('default_home');
+        return $this->render('login.html.twig', [
+            'error' => $error
+        ]);
+    }
+
+    #[Route('/logout', name: 'logout')]
+    public function logout(): void
+    {
+        // Symfony gère la déconnexion automatiquement, tu n'as pas besoin de code ici
     }
 
 
 
-#[Route('/logout', name: 'logout', methods: ['GET', 'POST'])]
+    #[Route('/logout', name: 'logout', methods: ['GET', 'POST'])]
     public function displayLogout()
     {
-
-
+    // Cette fonction peut être vide, car Symfony gère le logout automatiquement.
     }
-
-}
+    }
