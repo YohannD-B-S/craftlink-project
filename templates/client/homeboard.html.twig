@@ -8,18 +8,18 @@
 
         <div class="dashboard-links">
             <ul>
-                <li><a href="{{ path('client_profile') }}">📝 Mon Profil</a></li>
-                <li><a href="{{ path('client_orders') }}">📦 Mes Commandes</a></li>
-                <li><a href="{{ path('search_artisans') }}">🔍 Trouver un Artisan</a></li>
-                <li><a href="{{ path('messages') }}">💬 Mes Messages</a></li>
-                <li><a href="{{ path('support') }}">🛠 Assistance Client</a></li>
-                <li><a href="{{ path('logout') }}">🚪 Déconnexion</a></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
             </ul>
         </div>
 
         <div class="dashboard-info">
-            <p>Connecté en tant que <strong>{{ app.user.email }}</strong></p>
-            <p>Besoin d’aide ? Consultez la <a href="{{ path('faq') }}">FAQ</a> ou contactez notre support.</p>
+            <p>Connecté en tant que <strong>{{ app.user.firstName }} {{ app.user.lastName }}</strong></p>
+            <p>Besoin d’aide ? Consultez la  ou contactez notre support.</p>
         </div>
     </div>
 {% endblock %}

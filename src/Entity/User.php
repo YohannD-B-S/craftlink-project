@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -44,6 +46,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTime $update_date = null;
+
+    /**
+     * @var Collection<int, Article>
+     */
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: "author")]
+    private Collection $articles;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+    }
 
     public function CreateArtisan(string $email, string $passwordHash, string $firstName, string $lastName, \DateTime $created_at): void
     {
@@ -216,6 +229,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdateDate(?\DateTime $update_date): static
     {
         $this->update_date = $update_date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getIsPublished(): Collection
+    {
+        return $this->is_published;
+    }
+
+    public function addIsPublished(Article $isPublished): static
+    {
+        if (!$this->is_published->contains($isPublished)) {
+            $this->is_published->add($isPublished);
+            $isPublished->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIsPublished(Article $isPublished): static
+    {
+        if ($this->is_published->removeElement($isPublished)) {
+            // set the owning side to null (unless already changed)
+            if ($isPublished->getAuthor() === $this) {
+                $isPublished->setAuthor(null);
+            }
+        }
 
         return $this;
     }

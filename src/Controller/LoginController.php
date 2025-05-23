@@ -31,12 +31,4 @@ class LoginController extends AbstractController
     {
         // Symfony gère la déconnexion automatiquement, tu n'as pas besoin de code ici
     }
-
-
-
-    #[Route('/logout', name: 'logout', methods: ['GET', 'POST'])]
-    public function displayLogout()
-    {
-    // Cette fonction peut être vide, car Symfony gère le logout automatiquement.
-    }
-    }
+}

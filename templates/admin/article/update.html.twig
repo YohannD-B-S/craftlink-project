@@ -1,0 +1,21 @@
+{% extends "admin/base.html.twig" %}
+{% block title %}{{ article is defined ? 'Modifier' : 'Créer' }} un article{% endblock %}
+
+{% block body %}
+
+    <h1>{{ article is defined ? 'Modifier' : 'Créer' }} un article</h1>
+
+    <form action="{{ article is defined ? path('admin-update_article', { id: article.id }) : path('admin-create_article') }}" method="post">
+        <label for="title">Titre :</label>
+        <input type="text" id="title" name="title" value="{{ article.title is defined ? article.title : '' }}" required>
+
+        <label for="content">Contenu :</label>
+        <textarea id="content" name="content" required>{{ article.content is defined ? article.content : '' }}</textarea>
+
+        <label for="is_published">Publier :</label>
+        <input type="checkbox" id="is_published" name="is_published" {% if article.isPublished is defined and article.isPublished %}checked{% endif %}>
+
+        <button type="submit">{{ article is defined ? 'Mettre à jour' : 'Publier' }}</button>
+    </form>
+
+{% endblock %}

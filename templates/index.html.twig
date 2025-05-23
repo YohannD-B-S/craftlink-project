@@ -22,8 +22,13 @@
         <input type="text" placeholder="Entrer votre localisation..." class="zipcode-input">
     </div>
     <div class="auth-buttons">
-        <a href="{{ path('login') }}"><button class="login-btn">Connexion</button></a>
+    {% if app.user %}
+        <a href="{{ path('logout') }}" class="btn btn-danger">Se déconnecter</a>
+    {% else %}
+        <a href="{{ path('login') }}" class="btn btn-primary">Se connecter</a>
+    {% endif %}
     </div>
+
 </header>
 
 <main id="main-content">
