@@ -1,0 +1,191 @@
+@use '../base/index' as *;
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+
+main{
+
+
+}
+#find-artisan{
+  background-color: $primary-color;
+  height: 100vh;
+}
+.article__media{
+  width: 50%;
+  img{
+     width: 100%;
+   }
+}
+
+#find-artisan{
+  display: flex;
+  align-items: center;
+
+}
+h2{
+  color: #C68E3A;
+  font-size: 2rem;               // Taille suffisamment importante pour un slogan
+  font-family: 'Inter', sans-serif; // Utilisation de la police "Inter" avec une police de secours
+  font-style: italic;              // Option italique pour un style plus dynamique
+  text-align: center;              // Centrage du texte
+  margin: 1rem 0;                 // Espacement autour du slogan
+}
+
+#sectionArticle1Home {
+  background-color: #F7F3E9;
+  padding: 20px;
+
+  .article__title {
+    color: $secondary-color;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    margin-bottom: 20px;
+  }
+
+  article {
+    display: flex;
+    align-items: center; // aligne verticalement l'image et le paragraphe
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #294C6D; // bordure avec la couleur primaire
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    &:hover {
+      transform: translateY(-5px); // soulève légèrement l'article
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); // ombre accentuée pour plus de relief
+    }
+
+    .article__media {
+      flex: 1;
+      margin-right: 20px;
+
+      img {
+        width: 100%;
+        display: block;
+        border-radius: 10px;
+      }
+    }
+
+    .article__content {
+      flex: 1;
+      p.article__text {
+        font-family: "Inter", sans-serif;
+        font-size: 1.2rem;
+        color: #3D3D3D;
+        margin: 0;
+        span{
+          color: $primary-color;
+          font-size: xx-large;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+#sectionArticle2Home {
+  background-color: #F7F3E9;
+  padding: 20px;
+
+  .article__title {
+    color: $secondary-color;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    margin-bottom: 20px;
+  }
+
+  article {
+    display: flex;
+    align-items: center; // aligne verticalement l'image et le paragraphe
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #294C6D; // bordure avec la couleur primaire
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    &:hover {
+      transform: translateY(-5px); // soulève légèrement l'article
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); // ombre accentuée pour plus de relief
+    }
+
+    .article__media {
+      flex: 1;
+      margin-right: 20px;
+
+      img {
+        width: 100%;
+        display: block;
+        border-radius: 10px;
+      }
+    }
+
+    .article__content {
+      flex: 1;
+      p.article__text {
+        font-family: "Inter", sans-serif;
+        font-size: 1.2rem;
+        color: #3D3D3D;
+        margin: 0;
+
+      }
+    }
+  }
+}
+#sectionArticle3Home {
+  background-color: #F7F3E9;
+  padding: 20px;
+
+  .article__title {
+    color: $secondary-color;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    margin-bottom: 20px;
+  }
+
+  article {
+    display: flex;
+    align-items: center; // aligne verticalement l'image et le paragraphe
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #294C6D; // bordure avec la couleur primaire
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    &:hover {
+      transform: translateY(-5px); // soulève légèrement l'article
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); // ombre accentuée pour plus de relief
+    }
+
+    .article__media {
+      flex: 1;
+      margin-right: 20px;
+
+      img {
+        width: 100%;
+        display: block;
+        border-radius: 10px;
+      }
+    }
+
+    .article__content {
+      flex: 1;
+      p.article__text {
+        font-family: "Inter", sans-serif;
+        font-size: 1.2rem;
+        color: #3D3D3D;
+        margin: 0;
+
+      }
+    }
+  }
+}

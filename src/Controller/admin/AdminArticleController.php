@@ -102,7 +102,7 @@ class AdminArticleController extends AbstractController{
                 $entityManager->flush();
                 $this->addFlash('success', 'Votre article a bien été modifié.');
 
-                // 🔄 Redirection vers la liste des articles après modification
+                // Redirection vers la liste des articles après modification
                 return $this->redirectToRoute('admin-list-articles');
             } catch (\Exception $exception) {
                 $this->addFlash('error', 'Une erreur s\'est produite.');

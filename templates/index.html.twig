@@ -1,62 +1,51 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CraftLink - Accueil</title>
-    <link rel="stylesheet" href="{{ asset('asset/css/style.css') }}">
-</head>
-<body>
-<header id="header" class="full-height">
-    <div class="logo">
-        <img src="{{ asset('asset/images/logo-craftlink.png') }}" alt="Logo CraftLink">
-    </div>
-    <nav class="navigation">
-        <ul>
-            <li><a href="#article1">Trouver un artisan près de chez vous</a></li>
-            <li><a href="#article2">En savoir plus sur CraftLink</a></li>
-        </ul>
-    </nav>
-    <div class="search-bar">
-        <input type="text" placeholder="Rechercher un artisan..." class="search-input">
-        <input type="text" placeholder="Entrer votre localisation..." class="zipcode-input">
-    </div>
-    <div class="auth-buttons">
-    {% if app.user %}
-        <a href="{{ path('logout') }}" class="btn btn-danger">Se déconnecter</a>
-    {% else %}
-        <a href="{{ path('login') }}" class="btn btn-primary">Se connecter</a>
-    {% endif %}
-    </div>
+{% extends 'base.html.twig' %}
+{% block main %}
 
-</header>
+<main id="main-content" class="main">
 
-<main id="main-content">
-    <section class="registration-section">
-        <h2>Inscrivez-vous selon votre profil</h2>
-        <p>Choisissez le type de compte que vous souhaitez créer :</p>
-        <div class="registration-links">
-            <a href="{{ path('register_artisan') }}" class="btn-register">Inscription Artisan</a>
-            <a href="{{ path('register_client') }}" class="btn-register">Inscription Client</a>
+
+    <article id="find-artisan" class="article article--artisan">
+        <div class="article__media">
+            <img src="{{ asset('asset/image/craftlinkblue.png') }}" alt="Présentation de CraftLink">
         </div>
+        <div class="article__content">
+            <h2 class="article__slogan">"La Construction commence par la Connexion"</h2>
+        </div>
+
+    </article>
+
+    <section id="sectionArticle1Home">
+        <h2 class="article__title">Qui sommes nous ?</h2>
+            <article id="articleOneHome" class="article article--about">
+                <div class="article__media">
+                 <img src="{{ asset('asset/image/craftlinkHomeArticle1.jpg') }}" alt="Présentation de CraftLink">
+                 </div>
+                <div class="article__content">
+                     <p class="article__text">Chez <span>CraftLink</span> Nous croyons que la confiance est la clé d'une collaboration réussie entre clients et artisans. Notre plateforme de mise en relation a été conçue pour garantir un environnement sécurisé, où seuls des artisans rigoureusement sélectionnés et reconnus pour leur sérieux interviennent. Que vous ayez un besoin urgent ou que vous planifiiez un projet sur le long terme, nous vous assurons un accompagnement fiable et transparent pour éviter tout risque d'arnaque. Avec CraftLink, transformez vos idées en réalisations concrètes en toute sérénité.
+                </div>
+            </article>
     </section>
-    <article id="article1" class="article">
-        <div class="article-image">
-            <img src="{{ asset('asset/images/presentation-site.jpg') }}" alt="Présentation de CraftLink">
+    <section id="sectionArticle2Home">
+         <h2 class="article__title">Nos Innovations</h2>
+            <article id="articleOneHome" class="article article--about">
+                <div class="article__content">
+                    <p class="article__text">Nous allons bien au-delà de la simple mise en relation avec des artisans. Notre ambition est de vous armer face aux imprévus : qu'il s'agisse d'un cambriolage, d'une fuite d'eau ou de tout autre incident urgent, nous vous fournissons des conseils pratiques et des démarches adaptées pour réagir efficacement. Grâce à notre plateforme, vous bénéficiez d'une source d'information fiable et d'outils pour guider vos actions en situation critique. Parallèlement, nous favorisons un bouche-à-oreille authentique et moderne en vous offrant la possibilité de créer et de partager votre réseau personnel d'artisans de confiance avec vos proches. Nos innovations visent ainsi à transformer chaque urgence en une opportunité d'apprendre, de s'entraider et de renforcer la sécurité de chacun.</p>
+                </div>
+                <div class="article__media">
+                    <img src="{{ asset('asset/image/craftlinkHomeArticle2.jpg') }}" alt="Présentation de CraftLink">
+                </div>
+            </article>
+    </section>
+    <section id="sectionArticle3Home">
+    <h2 class="article__title">Nos Objectifs </h2>
+    <article id="articleOneHome" class="article article--about">
+        <div class="article__media">
+            <img src="{{ asset('asset/image/CraftlinkHomeArticle3.jpg') }}" alt="Présentation de CraftLink">
         </div>
-        <h2>CraftLink : Trouver un artisan facilement</h2>
-        <p>CraftLink permet aux utilisateurs de rechercher rapidement des artisans qualifiés proches de chez eux.
-            En quelques clics, il est possible de trouver un professionnel selon ses besoins et sa localisation.
-            Ce service simplifié favorise une mise en relation rapide et efficace.</p>
-    </article>
-    <article id="article2" class="article">
-        <div class="article-image">
-            <img src="{{ asset('asset/images/presentation-yohann.jpg') }}" alt="À propos de Yohann">
+        <div class="article__content">
+            <p class="article__text">L'objectif de CraftLink est de réconcilier les particuliers avec les artisans du bâtiment en créant un véritable pont entre ces deux univers. Nous ambitionnons de développer une application de gestion complète, spécialement conçue pour les artisans, afin de leur faire gagner du temps et d'optimiser leur quotidien. Parallèlement, notre plateforme facilite la recherche pour les particuliers en leur offrant un accès rapide à des professionnels rigoureusement sélectionnés. En connectant l'ensemble de la communauté, nous créons un écosystème où chaque utilisateur trouve exactement ce dont il a besoin pour mener à bien ses projets, en toute confiance et transparence.</p>
         </div>
-        <h2>À propos de CraftLink</h2>
-        <p>Découvrez l’histoire et les ambitions de CraftLink, une plateforme conçue pour valoriser les artisans et
-            faciliter l’accès à leurs services.</p>
     </article>
+    </section>
 </main>
-</body>
-</html>
+{% endblock main %}

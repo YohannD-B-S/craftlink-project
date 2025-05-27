@@ -1,0 +1,96 @@
+@use '../base/index' as *;
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(
+  to bottom, rgb( 247 , 243 , 233)
+  rgb(227, 183, 120) 50%,
+  $primary-color 100%);
+  padding:20px;
+h3{
+  font-size: 2rem;
+  color: $primary-color;
+}
+}
+
+nav{
+
+ width:50%;
+.nav__list{
+  list-style: none;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  a{
+    @include bouton;
+  }
+
+}
+}
+.header__logo{
+  width: 200px;
+  img{
+     width: 100%;
+   }
+}
+
+.header__auth{
+  width:25%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  h3{
+    font-size: 1rem;
+  }
+  .inscription{
+    width:45%;
+    a{
+      @include bouton;
+    }
+
+  }
+  .connexion{
+    width:45%;
+    a{
+      @include bouton;
+      background-color: $primary-color;
+      color:$background-color;
+    }
+  }
+}
+.auth__user{
+  @include bouton;
+}
+
+#footer{
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(
+                  to bottom, rgb( 247 , 243 , 233)
+          rgb(227, 183, 120) 50%,
+                  $primary-color 100%);
+  padding:20px;
+  h3{
+    font-size: 2rem;
+    color: $primary-color;
+
+}
+}
+.footer__logo{
+  width: 200px;
+  img{
+    width: 100%;
+  }
+}
+
+
+

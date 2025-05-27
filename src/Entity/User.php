@@ -42,7 +42,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $role = [];
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTime $created_at = null;
+    private ?\DateTime $createdAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTime $update_date = null;
@@ -58,13 +58,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->articles = new ArrayCollection();
     }
 
+    public function getRoleLabel(): string
+    {
+        $roleLabels = [
+            'ROLE_CLIENT' => 'Client',
+            'ROLE_ADMIN' => 'Administrateur',
+            'ROLE_ARTISAN' => 'Artisan',
+        ];
+
+        foreach ($this->getRoles() as $role) {
+            if (isset($roleLabels[$role])) {
+                return $roleLabels[$role];
+            }
+        }
+
+        return 'Utilisateur'; // Valeur par défaut
+    }
+
     public function CreateArtisan(string $email, string $passwordHash, string $firstName, string $lastName, \DateTime $created_at): void
     {
         $this->lastName=$lastName;
         $this->firstName=$firstName;
         $this->email = $email;
         $this->password = $passwordHash;
-        $this->created_at = new \DateTime();
+        $this->createdAt = new \DateTime();
         $this->role = ['ROLE_ARTISAN'];
     }
 
@@ -74,7 +91,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->firstName=$firstName;
         $this->email = $email;
         $this->password = $passwordHash;
-        $this->created_at = new \DateTime();
+        $this->createdAt = new \DateTime();
         $this->role = ['ROLE_CLIENT'];
     }
 
@@ -211,12 +228,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getCreatedAt(): ?\DateTime
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $created_at): static
+    public function setCreatedAt(\DateTime $createdAt): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

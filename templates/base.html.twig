@@ -1,17 +1,71 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraftLink - Accueil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+</head>
+<body>
 
-        {% block javascripts %}
+<div id="gradient">
+<header id="header" class="header full-height">
+    <div class="header__logo">
+        <a href="{{ path('index') }}"><img src="{{ asset('asset/image/craftlinkwhite.png') }}" alt="Logo CraftLink"></a>
+    </div>
 
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    <nav class="header__nav">
+        <ul class="nav__list">
+            <li class="nav__item"><a href="#about-us" class="nav__link">Qui sommes nous ?</a></li>
+            <li class="nav__item"><a href="#innovation" class="nav__link">Notre innovation</a></li>
+            <li class="nav__item"><a href="#goals" class="nav__link">Nos objectifs</a></li>
+        </ul>
+    </nav>
+
+    <div class="header__auth">
+        {% if app.user %}
+            <h3>Bienvenue, {{ app.user.firstName }} {{ app.user.lastName }}</h3>
+            <a class="auth__user" href="{{ path('client-homeboard') }}" class="auth__link">Mon profil</a>
+            <a class="auth__user" href= "{{ path('logout') }}" class="auth__link">Déconnexion</a>
+        {% else %}
+            <div class="inscription">
+                <h3>S'inscrire</h3>
+                <a href="{{ path('register_client') }}" class="btn btn--primary">Particulier</a>
+                <a href="{{ path('register_artisan') }}" class="btn btn--primary">Entreprise</a>
+            </div>
+            <div class="connexion">
+                <h3>Se connecter</h3>
+                <a href="{{ path('login') }}" class="btn btn--primary">Se connecter</a>
+            </div>
+        {% endif %}
+    </div>
+</header>
+
+<main id="main-content" class="main">
+    {% block main %}
+    {% endblock main %}
+</main>
+</div>
+<footer id="footer" class="footer">
+    <div class="footer__logo">
+        <img src="{{ asset('asset/image/craftlinkwhite.png') }}" alt="Logo CraftLink">
+    </div>
+    <nav class="footer__nav">
+        <ul class="footer__list">
+            <li class="footer__item">
+
+                <p class="footer__copyright">CraftLink - 2020</p>
+
+            </li>
+        </ul>
+    </nav>
+    <div class="footer__logo">
+        <img src="{{ asset('asset/image/craftlinkwhite.png') }}" alt="Logo CraftLink">
+    </div>
+</footer>
+
+</body>
 </html>
