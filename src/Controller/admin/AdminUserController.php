@@ -42,5 +42,4 @@ class AdminUserController extends AbstractController
             'order' => $order
         ]);
     }
-
 }

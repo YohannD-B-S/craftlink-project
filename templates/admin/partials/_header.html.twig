@@ -13,9 +13,9 @@
     {% if currentRoute starts with 'admin-' %}
         <nav class="header__nav">
             <ul class="nav__list">
-                <li class="nav__item"><a href="#" class="nav__link">Création Article</a></li>
-                <li class="nav__item"><a href="#" class="nav__link">Lien 2</a></li>
-                <li class="nav__item"><a href="#" class="nav__link">Etc</a></li>
+                <li class="nav__item"><a href="{{ path('admin-create_article') }}" class="nav__link">Création Article</a></li>
+                <li class="nav__item"><a href="{{ path ('admin-user') }}" class="nav__link">Utilisateurs</a></li>
+                <li class="nav__item"><a href="{{ path ('admin-list-articles') }}" class="nav__link">Articles</a></li>
             </ul>
         </nav>
     {% endif %}
@@ -23,7 +23,7 @@
 
     <div class="header__auth">
         {% if app.user %}
-            <h3>Bienvenue, {{ app.user.firstName }} {{ app.user.lastName }}</h3>
+            <h3>Bienvenue, {{ app.user.firstName }}</h3>
             <div>
                 {% if 'ROLE_ADMIN' in app.user.roles %}
                     <a class="auth__user" href="{{ path('admin-homeboard') }}" class="auth__link">Mon profil</a>

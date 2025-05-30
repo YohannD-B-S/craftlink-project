@@ -1,6 +1,8 @@
 @use '../abstracts/index' as *;
 
 form {
+
+  font-family: "Inter", sans-serif;
   max-width: 50%;
   margin: auto;
   background: $background-color;
@@ -32,5 +34,10 @@ input {
   border: 1px solid $secondary-color;
   border-radius: 5px;
   font-size: 1rem;
+}
+textarea{
+  width: 80%;
+  height: 100%;
+
 }
 

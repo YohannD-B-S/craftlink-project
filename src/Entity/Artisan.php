@@ -13,8 +13,8 @@ class Artisan
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?user $user = null;
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: "artisan", cascade: ["persist", "remove"])]
+    private ?User $user = null;
 
     #[ORM\Column(length: 255)]
     private ?string $speciality = null;

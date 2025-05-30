@@ -1,43 +1,61 @@
-{% extends "admin/base.html.twig" %}
+{% extends 'admin/base.html.twig' %}
 
 {% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
-    <h1>Utilisateurs du site</h1>
 
-    <form method="get" action="{{ path('admin-user') }}">
-        <label for="sort">Trier par :</label>
-        <select id="sort" name="sort" onchange="this.form.submit()">
-            <option value="name" {% if sort == 'name' %}selected{% endif %}>Nom</option>
-            <option value="createdAt" {% if sort == 'createdAt' %}selected{% endif %}>Date de création</option>
-        </select>
-        <input type="hidden" name="order" value="{{ order }}">
-    </form>
+    <main class="homeboard">
+        <section class="sidebar">
+            <ul>
+                <li><a href={{ path('admin-user') }}>Liste Utilisateurs</a></li>
+                <li><a>Tableau de bord artisan</a></li>
+                <li><a>Administration</a></li>
+                <li><a>Inscription client</a></li>
+                <li><a>Inscription artisan</a></li>
+            </ul>
+        </section>
+        <section class="homeboardInfo">
 
-    {% if users is empty %}
-        <p>Aucun utilisateur trouvé.</p>
-    {% else %}
-        <table class="table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Rôle</th>
-                <th>Date de création</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.firstName }} {{ user.lastName }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.getRoleLabel() }}</td>
-                    <td>{{ user.createdAt|date('d/m/Y') }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+
+
+            <form method="get" action="{{ path('admin-user') }}">
+                <h1>Utilisateurs du site</h1>
+                <label for="sort">Trier par :</label>
+                <select id="sort" name="sort" onchange="this.form.submit()">
+                    <option value="name" {% if sort == 'name' %}selected{% endif %}>Nom</option>
+                    <option value="createdAt" {% if sort == 'createdAt' %}selected{% endif %}>Date de création</option>
+                </select>
+                <input type="hidden" name="order" value="{{ order }}">
+                {% if users is empty %}
+                    <p>Aucun utilisateur trouvé.</p>
+                {% else %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Rôle</th>
+                            <th>Date de création</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.firstName }} {{ user.lastName }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.getRoleLabel() }}</td>
+                                <td>{{ user.createdAt|date('d/m/Y') }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </form>
+
+
+        </section>
+    </main>
+
 {% endblock %}

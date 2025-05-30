@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   margin: 0;
   padding: 0;
@@ -23,8 +24,6 @@ header.all-pages li a {
   padding: 10px;
 }
 .nav__list a:hover {
-  background-color: rgba(128, 128, 128, 0.5); /* Gris avec 50% de transparence */
-  border: solid 1px white;
   border-radius: 5px;
   color: #C68E3A;
 }
@@ -289,6 +288,7 @@ nav .nav__list a:hover {
 }
 
 form {
+  font-family: "Inter", sans-serif;
   max-width: 50%;
   margin: auto;
   background: #F7F3E9;
@@ -318,6 +318,11 @@ input {
   border: 1px solid #C68E3A;
   border-radius: 5px;
   font-size: 1rem;
+}
+
+textarea {
+  width: 80%;
+  height: 100%;
 }
 
 * {
@@ -492,24 +497,33 @@ h2 {
 body {
   background-color: #294C6D;
 }
+body h1 {
+  font-family: "Inter", sans-serif;
+  color: #C68E3A;
+}
 
-main {
+.homeboard {
   display: flex;
   width: 100%;
   position: relative;
 }
 
 .homeboardInfo {
-  border-radius: 25px;
+  border-radius: 20px;
   min-height: 85vh;
-  background-color: #F7F3E9;
+  background-color: grey;
   background-image: url("../asset/image/craftlinkgrey.png");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 600px;
   width: 85%;
   position: absolute;
   right: 0px;
+  box-shadow: 30px 30px 40px rgba(0, 0, 0, 0.5); /* Ombre plus prononcée */
+}
+
+.register-page {
+  background-color: white;
 }
 
 /*# sourceMappingURL=main.css.map */

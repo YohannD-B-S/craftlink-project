@@ -11,6 +11,18 @@
         <div class="article__content">
             <h2 class="article__slogan">"La Construction commence par la Connexion"</h2>
         </div>
+        <div>
+            <form action="{{ path('search_artisan') }}" method="GET">
+                <label for="speciality">Spécialité :</label>
+                <input type="text" id="speciality" name="speciality" placeholder="Ex. Plombier, Électricien..." required>
+
+                <label for="postal_code">Code Postal :</label>
+                <input type="text" id="postal_code" name="postal_code" placeholder="Ex. 75001" required>
+
+                <button type="submit">Rechercher</button>
+            </form>
+
+        </div>
 
     </article>
 

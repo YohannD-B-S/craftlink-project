@@ -16,27 +16,50 @@ class RegisterUserController extends AbstractController{
     public function displayCreateClient(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager)
     {
         if ($request->isMethod('POST')) {
-            $lastName = $request->request->get('lastName');
-            $firstName = $request->request->get('firstName');
-            $email = $request->request->get('email');
-            $password = $request->request->get('password');
+            // Récupération des données du formulaire avec valeurs par défaut
+            $lastName = $request->request->get('lastName') ?? '';
+            $firstName = $request->request->get('firstName') ?? '';
+            $email = $request->request->get('email') ?? '';
+            $password = $request->request->get('password') ?? '';
+            $address = $request->request->get('address') ?? '';
+            $postalCode = $request->request->get('postal_code') ?? '';
+            $phoneNumber = $request->request->get('phone_number') ?? '';
 
+            // Vérifications basiques
+            if (empty($lastName) || empty($firstName) || empty($email) || empty($password)) {
+                $this->addFlash('danger', 'Tous les champs requis doivent être remplis.');
+                return $this->redirectToRoute('register_client');
+            }
+
+            // Vérification du format du numéro de téléphone (optionnel)
+            if (!preg_match('/^\+?\d{10,15}$/', $phoneNumber)) {
+                $this->addFlash('danger', 'Le format du numéro de téléphone est invalide.');
+                return $this->redirectToRoute('register_client');
+            }
+
+            // Création de l'utilisateur
             $user = new User();
             $passwordHash = $userPasswordHasher->hashPassword($user, $password);
             $created_at = new \DateTime();
-            $user->CreateClient($email, $passwordHash, $firstName, $lastName, $created_at);
+
+            // Ajout des informations du client
+            $user->createClient($email, $passwordHash, $firstName, $lastName, $address, $postalCode, $phoneNumber, $created_at);
 
             try {
+                // Persistance en base
                 $entityManager->persist($user);
                 $entityManager->flush();
-                $this->addFlash('success', 'Votre compte artisan a bien été créé');
 
-                // Redirection vers la page de connexion
+                // Correction du message flash
+                $this->addFlash('success', 'Votre compte client a bien été créé');
+
+                // Redirection vers la page client
                 return $this->redirectToRoute('client-homeboard');
             } catch (\Exception $exception) {
-                $this->addFlash('danger', 'Une erreur s\'est produite');
+                $this->addFlash('danger', 'Une erreur s\'est produite : ' . $exception->getMessage());
             }
         }
+
         return $this->render('register_client.html.twig');
     }
 
@@ -45,16 +68,18 @@ class RegisterUserController extends AbstractController{
     {
         if ($request->isMethod('POST')){
 
-            $lastName=$request->request->get('lastName');
             $firstName=$request->request->get('firstName');
+            $lastName=$request->request->get('lastName');
             $email=$request->request->get('email');
+            $adress=$request->request->get('address');
+            $postal_code=$request->request->get('postal_code');
+            $phone=$request->request->get('phone_number');
+            $speciality=$request->request->get('speciality');
             $password=$request->request->get(key:'password');
             $user=new User();
             $passwordHash=$userPasswordHasher->hashPassword($user,$password);
             $created_at=new \DateTime();
-            $user->CreateArtisan($email,$passwordHash,$firstName,$lastName, $created_at);
-
-
+            $user->CreateArtisan($email, $passwordHash, $firstName, $speciality, $phone, $postal_code, $adress, $lastName, $created_at, $entityManager);
             try{
                 $entityManager->persist($user);
                 $entityManager->flush();

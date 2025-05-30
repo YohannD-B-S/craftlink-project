@@ -1,0 +1,13 @@
+
+
+<h2>Artisans disponibles pour le code postal : {{ postalCode }}</h2>
+
+{% if artisans|length > 0 %}
+    <ul>
+        {% for artisan in artisans %}
+            <li>{{ artisan.speciality }} - {{ artisan.user.firstName }} {{ artisan.user.lastName }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucun artisan disponible trouvé.</p>
+{% endif %}

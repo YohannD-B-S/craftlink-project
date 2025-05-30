@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Artisan;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -20,17 +22,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 255 )]
+    #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 255 , nullable: true)]
-    private ?string $adress = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $address = null;
 
-    #[ORM\Column(length: 255 , nullable: true)]
-    private ?string $postal_code = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $postalCode = null;
 
     #[ORM\Column(length: 255, nullable: true, unique: true)]
-    private ?string $phone_number = null;
+    private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
@@ -38,24 +40,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255,)]
-    private array $role = [];
+    #[ORM\Column]
+    private array $roles = [];
 
     #[ORM\Column(nullable: true)]
     private ?\DateTime $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTime $update_date = null;
+    private ?\DateTime $updatedAt = null;
 
-    /**
-     * @var Collection<int, Article>
-     */
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: "author")]
     private Collection $articles;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $speciality = null;
+
+    #[ORM\OneToOne(targetEntity: Artisan::class, mappedBy: "user", cascade: ["persist", "remove"])]
+    private ?Artisan $artisan = null;
 
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+    }
+
+    // Obligatoire pour UserInterface
+    public function getUserIdentifier(): string
+    {
+        return $this->email ?? '';
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Supprime les données sensibles temporaires si besoin
+    }
+
+    // Gestion des rôles utilisateur
+    public function getRoles(): array
+    {
+        return array_unique($this->roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
     }
 
     public function getRoleLabel(): string
@@ -72,213 +100,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
-        return 'Utilisateur'; // Valeur par défaut
+        return 'Utilisateur';
     }
 
-    public function CreateArtisan(string $email, string $passwordHash, string $firstName, string $lastName, \DateTime $created_at): void
-    {
-        $this->lastName=$lastName;
-        $this->firstName=$firstName;
+    // Création d'un artisan
+    public function createArtisan(
+        string $email,
+        string $passwordHash,
+        string $firstName,
+        string $speciality,
+        string $phone,
+        string $postalCode,
+        string $address,
+        string $lastName,
+        \DateTime $createdAt,
+        EntityManagerInterface $entityManager
+    ): void {
+
+        // Vérifier qu'un artisan n'existe pas déjà pour cet utilisateur
+        if ($this->artisan !== null) {
+            throw new \Exception("Cet utilisateur est déjà un artisan.");
+        }
+
+        // Définition des informations utilisateur
         $this->email = $email;
         $this->password = $passwordHash;
-        $this->createdAt = new \DateTime();
-        $this->role = ['ROLE_ARTISAN'];
-    }
-
-    public function CreateClient (string $email, string $passwordHash, string $firstName, string $lastName, \DateTime $created_at): void
-    {
-        $this->lastName=$lastName;
-        $this->firstName=$firstName;
-        $this->email = $email;
-        $this->password = $passwordHash;
-        $this->createdAt = new \DateTime();
-        $this->role = ['ROLE_CLIENT'];
-    }
-
-
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): static
-    {
         $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): static
-    {
         $this->lastName = $lastName;
+        $this->speciality = $speciality;
+        $this->phoneNumber = $phone;
+        $this->postalCode = $postalCode;
+        $this->address = $address;
+        $this->createdAt = $createdAt;
+        $this->roles = ['ROLE_ARTISAN'];
 
-        return $this;
+        // Création et association d'un artisan
+        $artisan = new Artisan();
+        $artisan->setUser($this);
+        $artisan->setSpeciality($speciality);
+        $artisan->setAvailable("Disponible");
+
+        // Persistance en base
+        $entityManager->persist($this);
+        $entityManager->persist($artisan);
+        $entityManager->flush();
     }
 
-    public function getAdress(): ?string
-    {
-        return $this->adress;
-    }
-
-    public function setAdress(string $adress): static
-    {
-        $this->adress = $adress;
-
-        return $this;
-    }
-
-    public function getPostalCode(): ?string
-    {
-        return $this->postal_code;
-    }
-
-    public function setPostalCode(string $postal_code): static
-    {
-        $this->postal_code = $postal_code;
-
-        return $this;
-    }
-
-    public function getPhoneNumber(): ?string
-    {
-        return $this->phone_number;
-    }
-
-    public function setPhoneNumber(string $phone_number): static
-    {
-        $this->phone_number = $phone_number;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
+    public function createClient(
+        string $email,
+        string $passwordHash,
+        string $firstName,
+        string $lastName,
+        string $address,
+        string $postalCode,
+        string $phoneNumber,
+        \DateTime $createdAt
+    ): void {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
-
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getRole(): array
-    {
-        return $this->role;
-    }
-
-    public function getRoles(): array
-    {
-        // Garantie qu'un utilisateur a toujours au moins ROLE_USER
-        $role = $this->role;
-
-
-        return array_unique($role);
-    }
-
-
-    public function setRoles(array $role): static
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    public function setRole(array $role): static
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    public function eraseCredentials(): void
-    {
-        // Si tu stockes des données sensibles temporaires, efface-les ici (ex: $this->plainPassword = null)
-    }
-
-    public function getCreatedAt(): ?\DateTime
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTime $createdAt): static
-    {
+        $this->password = $passwordHash;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->address = $address;
+        $this->postalCode = $postalCode;
+        $this->phoneNumber = $phoneNumber;
         $this->createdAt = $createdAt;
 
-        return $this;
+        $this->roles = ['ROLE_CLIENT']; // Aucun Artisan associé
     }
 
-    public function getUpdateDate(): ?\DateTime
-    {
-        return $this->update_date;
-    }
-
-    public function setUpdateDate(?\DateTime $update_date): static
-    {
-        $this->update_date = $update_date;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Article>
-     */
-    public function getIsPublished(): Collection
-    {
-        return $this->is_published;
-    }
-
-    public function addIsPublished(Article $isPublished): static
-    {
-        if (!$this->is_published->contains($isPublished)) {
-            $this->is_published->add($isPublished);
-            $isPublished->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIsPublished(Article $isPublished): static
-    {
-        if ($this->is_published->removeElement($isPublished)) {
-            // set the owning side to null (unless already changed)
-            if ($isPublished->getAuthor() === $this) {
-                $isPublished->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-
+    // Gestion des données utilisateur
+    public function getId(): ?int { return $this->id; }
+    public function getFirstName(): ?string { return $this->firstName; }
+    public function setFirstName(string $firstName): self { $this->firstName = $firstName; return $this; }
+    public function getLastName(): ?string { return $this->lastName; }
+    public function setLastName(string $lastName): self { $this->lastName = $lastName; return $this; }
+    public function getAddress(): ?string { return $this->address; }
+    public function setAddress(string $address): self { $this->address = $address; return $this; }
+    public function getPostalCode(): ?string { return $this->postalCode; }
+    public function setPostalCode(string $postalCode): self { $this->postalCode = $postalCode; return $this; }
+    public function getPhoneNumber(): ?string { return $this->phoneNumber; }
+    public function setPhoneNumber(string $phoneNumber): self { $this->phoneNumber = $phoneNumber; return $this; }
+    public function getEmail(): ?string { return $this->email; }
+    public function setEmail(string $email): self { $this->email = $email; return $this; }
+    public function getPassword(): ?string { return $this->password; }
+    public function setPassword(string $password): self { $this->password = $password; return $this; }
+    public function getCreatedAt(): ?\DateTime { return $this->createdAt; }
+    public function setCreatedAt(\DateTime $createdAt): self { $this->createdAt = $createdAt; return $this; }
+    public function getUpdatedAt(): ?\DateTime { return $this->updatedAt; }
+    public function setUpdatedAt(?\DateTime $updatedAt): self { $this->updatedAt = $updatedAt; return $this; }
+    public function getSpeciality(): ?string { return $this->speciality; }
+    public function setSpeciality(?string $speciality): self { $this->speciality = $speciality; return $this; }
+    public function getArtisan(): ?Artisan { return $this->artisan; }
+    public function setArtisan(?Artisan $artisan): self { $this->artisan = $artisan; return $this; }
 }

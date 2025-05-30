@@ -3,6 +3,7 @@
 {% block title %}Inscription - CraftLink{% endblock %}
 
 {% block main %}
+    <body class="register-page">
     <main>
         <div class="registration-container">
             <h2>Inscription Artisan</h2>
@@ -24,6 +25,27 @@
                     <input type="email" id="email" name="email" required>
                 </div>
 
+
+                <div>
+                    <label for="adress">Votre adresse</label>
+                    <input type="text" id="adress" name="adress">
+                </div>
+
+                <div>
+                    <label for="postal_code">Votre code postal</label>
+                    <input type="text" id="postal_code" name="postal_code">
+                </div>
+
+                <div>
+                    <label for="phone_number">Votre numéro de téléphone </label>
+                    <input type="text" id="phone_number" name="phone_number">
+                </div>
+
+                <div>
+                    <label for="speciality">Votre spécialité</label>
+                    <input type="text" id="speciality" name="speciality">
+                </div>
+
                 <div class="form-group">
                     <label for="password">Mot de passe :</label>
                     <input type="password" id="password" name="password" required>
@@ -38,4 +60,5 @@
             </form>
         </div>
     </main>
+    </body>
 {% endblock %}

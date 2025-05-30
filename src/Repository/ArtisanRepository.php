@@ -16,28 +16,26 @@ class ArtisanRepository extends ServiceEntityRepository
         parent::__construct($registry, Artisan::class);
     }
 
-    //    /**
-    //     * @return Artisan[] Returns an array of Artisan objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Artisan
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * Recherche des artisans disponibles selon la spécialité et le code postal.
+     *
+     * @param string $speciality
+     * @param string $postalCode
+     * @return Artisan[]
+     */
+    public function findAvailableArtisans(string $speciality, string $postalCode): array
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.user', 'u') // Jointure avec l'utilisateur
+            ->where('a.speciality = :speciality')
+            ->andWhere('a.available = :available')
+            ->andWhere('u.postalCode = :postalCode')
+            ->andWhere('u.roles LIKE :role') // Filtrer uniquement les artisans
+            ->setParameter('speciality', $speciality)
+            ->setParameter('available', 'Disponible')
+            ->setParameter('postalCode', $postalCode)
+            ->setParameter('role', '%ROLE_ARTISAN%') // Vérifier le rôle
+            ->getQuery()
+            ->getResult();
+    }
 }
