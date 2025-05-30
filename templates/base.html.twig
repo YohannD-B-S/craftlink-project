@@ -11,61 +11,17 @@
 </head>
 <body>
 
-<div id="gradient">
-<header id="header" class="header full-height">
-    <div class="header__logo">
-        <a href="{{ path('index') }}"><img src="{{ asset('asset/image/craftlinkwhite.png') }}" alt="Logo CraftLink"></a>
-    </div>
+{% include 'guest/partials/_header.html.twig' with { 'currentRoute': app.request.attributes.get('_route') } %}
 
-    <nav class="header__nav">
-        <ul class="nav__list">
-            <li class="nav__item"><a href="#about-us" class="nav__link">Qui sommes nous ?</a></li>
-            <li class="nav__item"><a href="#innovation" class="nav__link">Notre innovation</a></li>
-            <li class="nav__item"><a href="#goals" class="nav__link">Nos objectifs</a></li>
-        </ul>
-    </nav>
 
-    <div class="header__auth">
-        {% if app.user %}
-            <h3>Bienvenue, {{ app.user.firstName }} {{ app.user.lastName }}</h3>
-            <a class="auth__user" href="{{ path('client-homeboard') }}" class="auth__link">Mon profil</a>
-            <a class="auth__user" href= "{{ path('logout') }}" class="auth__link">Déconnexion</a>
-        {% else %}
-            <div class="inscription">
-                <h3>S'inscrire</h3>
-                <a href="{{ path('register_client') }}" class="btn btn--primary">Particulier</a>
-                <a href="{{ path('register_artisan') }}" class="btn btn--primary">Entreprise</a>
-            </div>
-            <div class="connexion">
-                <h3>Se connecter</h3>
-                <a href="{{ path('login') }}" class="btn btn--primary">Se connecter</a>
-            </div>
-        {% endif %}
-    </div>
-</header>
+{% block main %}
+{% endblock main %}
 
-<main id="main-content" class="main">
-    {% block main %}
-    {% endblock main %}
-</main>
-</div>
-<footer id="footer" class="footer">
-    <div class="footer__logo">
-        <img src="{{ asset('asset/image/craftlinkwhite.png') }}" alt="Logo CraftLink">
-    </div>
-    <nav class="footer__nav">
-        <ul class="footer__list">
-            <li class="footer__item">
 
-                <p class="footer__copyright">CraftLink - 2020</p>
+{% include 'guest/partials/_footer.html.twig' with { 'currentRoute': app.request.attributes.get('_route') } %}
 
-            </li>
-        </ul>
-    </nav>
-    <div class="footer__logo">
-        <img src="{{ asset('asset/image/craftlinkwhite.png') }}" alt="Logo CraftLink">
-    </div>
-</footer>
+{% block scripts %}
+{% endblock scripts %}
 
 </body>
 </html>

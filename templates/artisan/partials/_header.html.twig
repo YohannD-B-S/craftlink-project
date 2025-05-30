@@ -1,0 +1,52 @@
+{% if currentRoute == 'artisan-homeboard' %}
+<header id="header" class="header all-pages">
+    <div class="header__logo">
+        <a href="{{ path('index') }}"><img src="{{ asset('asset/image/craftlinkblue.png') }}" alt="Logo CraftLink"></a>
+    </div>
+
+    {% else %}
+        <div class="header__logo">
+            <a href="{{ path('index') }}"><img src="{{ asset('asset/image/craftlinkblue.png') }}" alt="Logo CraftLink"></a>
+        </div>
+    {% endif %}
+
+    {% if currentRoute == 'artisan-homeboard' %}
+        <nav class="header__nav">
+            <ul class="nav__list">
+                <li class="nav__item"><a href="#" class="nav__link">Création Article</a></li>
+                <li class="nav__item"><a href="#" class="nav__link">Lien 2</a></li>
+                <li class="nav__item"><a href="#" class="nav__link">Etc</a></li>
+            </ul>
+        </nav>
+    {% endif %}
+
+
+    <div class="header__auth">
+        {% if app.user %}
+            <h3>Bienvenue, {{ app.user.firstName }} {{ app.user.lastName }}</h3>
+            <div>
+                {% if 'ROLE_ADMIN' in app.user.roles %}
+                    <a class="auth__user" href="{{ path('admin-homeboard') }}" class="auth__link">Mon profil</a>
+                {% elseif 'ROLE_CLIENT' in app.user.roles %}
+                    <a class="auth__user" href="{{ path('client-homeboard') }}" id="Account">Profil</a>
+                {% elseif 'ROLE_ARTISAN' in app.user.roles %}
+                    <a class="auth__user" href="{{ path('artisan-homeboard') }}" class="auth__link">Profil</a>
+                {% endif %}
+
+                <a class="auth__user" href="{{ path('logout') }}" class="auth__link">Déconnexion</a>
+            </div>
+        {% else %}
+
+            <div class="inscription">
+                <h3>S'inscrire</h3>
+                <a href="{{ path('register_client') }}" class="btn btn--primary">Particulier</a>
+                <a href="{{ path('register_artisan') }}" class="btn btn--primary">Entreprise</a>
+            </div>
+
+            <div class="connexion">
+                <h3>Se connecter</h3>
+                <a href="{{ path('login') }}" class="btn btn--primary">Se connecter</a>
+            </div>
+        {% endif %}
+    </div>
+</header>

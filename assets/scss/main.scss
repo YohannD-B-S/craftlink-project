@@ -1,6 +1,8 @@
-@use 'layout/header';
-@use 'base/index';
+@use 'layout/index-layout';
+@use 'abstracts/index';
+@use 'base/index-base';
 @use "components/buttons";
 @use "components/forms";
-@use "pages/home";
+@use "pages/index-pages";
+
 

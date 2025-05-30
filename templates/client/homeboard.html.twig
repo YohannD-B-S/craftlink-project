@@ -2,24 +2,9 @@
 
 {% block title %}Tableau de Bord Client{% endblock %}
 
-{% block body %}
-    <div class="dashboard-container">
-        <h2>Bienvenue sur votre tableau de bord</h2>
+{% block main %}
+    <main class="homeboard-client">
+        bonjour
+    </main>
 
-        <div class="dashboard-links">
-            <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </div>
-
-        <div class="dashboard-info">
-            <p>Connecté en tant que <strong>{{ app.user.firstName }} {{ app.user.lastName }}</strong></p>
-            <p>Besoin d’aide ? Consultez la  ou contactez notre support.</p>
-        </div>
-    </div>
-{% endblock %}
+{% endblock main %}

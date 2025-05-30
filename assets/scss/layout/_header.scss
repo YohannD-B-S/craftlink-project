@@ -1,18 +1,57 @@
-@use '../base/index' as *;
+@use '../abstracts/index' as *;
 
 *{
   margin:0;
   padding:0;
   box-sizing: border-box;
 }
+
+header.all-pages{
+  background-color: #294C6D;
+  font-family: "Inter", sans-serif;
+
+  h3{
+    color:white;
+  }
+
+  li {
+    padding: 15px;
+    a{
+      color: white;
+    }
+    }
+  }
+
+  .nav__list {
+    a {
+
+      color: white;
+      padding: 10px;
+
+      &:hover {
+        background-color: rgba(128, 128, 128, 0.5); /* Gris avec 50% de transparence */        border: solid 1px white;
+        border-radius: 5px;
+        color: $secondary-color;
+      }
+    }
+  }
+
+  .inscription, .connexion{
+    a{
+      background-color: white;
+      color:$primary-color;
+      &:hover {
+        background-color: $background-color;
+      }
+    }
+  }
+
+
 header{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(
-  to bottom, rgb( 247 , 243 , 233)
-  rgb(227, 183, 120) 50%,
-  $primary-color 100%);
+  background-color: white;
   padding:20px;
 h3{
   font-size: 2rem;
@@ -29,11 +68,19 @@ nav{
   display: flex;
   justify-content: space-between;
   a{
-    @include bouton;
+    text-decoration: none;
+    font-family: "Inter", sans-serif;
+    color: $primary-color;
+    transition: all 0.3s ease-in-out;
+    &:hover{
+      color: $secondary-color;
+    }
   }
 
 }
 }
+
+
 .header__logo{
   width: 200px;
   img{
@@ -42,10 +89,21 @@ nav{
 }
 
 .header__auth{
+
   width:25%;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+
+  a{
+    font-family: "Inter", sans-serif;
+    background-color: white;
+    color:$primary-color;
+    &:hover {
+      background-color: $background-color;
+    }
+  }
+
   h3{
     font-size: 1rem;
   }
@@ -54,8 +112,8 @@ nav{
     a{
       @include bouton;
     }
-
   }
+
   .connexion{
     width:45%;
     a{
@@ -69,28 +127,8 @@ nav{
   @include bouton;
 }
 
-#footer{
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(
-                  to bottom, rgb( 247 , 243 , 233)
-          rgb(227, 183, 120) 50%,
-                  $primary-color 100%);
-  padding:20px;
-  h3{
-    font-size: 2rem;
-    color: $primary-color;
 
-}
-}
-.footer__logo{
-  width: 200px;
-  img{
-    width: 100%;
-  }
-}
 
 
 

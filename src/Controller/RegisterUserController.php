@@ -13,30 +13,31 @@ use Symfony\Component\Routing\Attribute\Route;
 class RegisterUserController extends AbstractController{
 
     #[Route('/register_client', name: 'register_client')]
-    public function displayCreateClient( Request $request, UserPasswordHasherInterface $userPasswordHasher,EntityManagerInterface $entityManager){
+    public function displayCreateClient(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager)
+    {
+        if ($request->isMethod('POST')) {
+            $lastName = $request->request->get('lastName');
+            $firstName = $request->request->get('firstName');
+            $email = $request->request->get('email');
+            $password = $request->request->get('password');
 
-        if ($request->isMethod('POST')){
+            $user = new User();
+            $passwordHash = $userPasswordHasher->hashPassword($user, $password);
+            $created_at = new \DateTime();
+            $user->CreateClient($email, $passwordHash, $firstName, $lastName, $created_at);
 
-            $lastName=$request->request->get('lastName');
-            $firstName=$request->request->get('firstName');
-            $email=$request->request->get('email');
-            $password=$request->request->get(key:'password');
-            $user=new User();
-            $passwordHash=$userPasswordHasher->hashPassword($user,$password);
-            $created_at=new \DateTime();
-            $user->CreateClient($email,$passwordHash,$firstName,$lastName, $created_at);
-
-
-            try{
+            try {
                 $entityManager->persist($user);
                 $entityManager->flush();
-                $this->addFlash('success','Votre compte artisan à bien été créé');
-                return $this->redirectToRoute('artisan-homeboard');
-            }catch(\Exception $exception){
-                $this->addFlash('danger','Une erreur s\'est produite' );
+                $this->addFlash('success', 'Votre compte artisan a bien été créé');
+
+                // Redirection vers la page de connexion
+                return $this->redirectToRoute('client-homeboard');
+            } catch (\Exception $exception) {
+                $this->addFlash('danger', 'Une erreur s\'est produite');
             }
         }
-        return $this->render('register_artisan.html.twig');
+        return $this->render('register_client.html.twig');
     }
 
     #[Route('/register_artisan', name: 'register_artisan')]

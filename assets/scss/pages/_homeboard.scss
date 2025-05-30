@@ -1,0 +1,24 @@
+@use '../abstracts/index' as *;
+
+body{
+  background-color: $primary-color;
+}
+
+main{
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.homeboardInfo{
+  border-radius: 25px;
+  min-height: 85vh;
+  background-color: $background-color;
+  background-image: url("../asset/image/craftlinkgrey.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 85%;
+  position: absolute;
+  right: 0px;
+}

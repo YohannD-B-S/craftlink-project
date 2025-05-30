@@ -1,0 +1,5 @@
+@use '../abstracts/index' as *;
+
+.flex-cl-center{
+@include flex(column, center, center)
+}
