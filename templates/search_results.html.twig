@@ -1,13 +1,36 @@
+{% extends 'base.html.twig' %}
 
+{% block title %}Résultats de la recherche{% endblock %}
 
-<h2>Artisans disponibles pour le code postal : {{ postalCode }}</h2>
+{% block main %}
+    <div>
+        <h2>Résultats de la recherche pour "{{ speciality }}"</h2>
 
-{% if artisans|length > 0 %}
-    <ul>
-        {% for artisan in artisans %}
-            <li>{{ artisan.speciality }} - {{ artisan.user.firstName }} {{ artisan.user.lastName }}</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Aucun artisan disponible trouvé.</p>
-{% endif %}
+        <!-- Affichage des artisans trouvés -->
+        {% if artisans is defined and artisans|length > 0 %}
+            <ul>
+                {% for artisan in artisans %}
+                    <li>
+                        <strong>{{ artisan['speciality'] }}</strong> - {{ artisan['firstName'] }} {{ artisan['lastName'] }}
+
+                        <!-- Affichage des coordonnées de l'artisan -->
+                        {% if artisan['address'] %}
+                            <p>Adresse : {{ artisan['address'] }}</p>
+                        {% endif %}
+                        {% if artisan['postalCode'] %}
+                            <p>Code postal : {{ artisan['postalCode'] }}</p>
+                        {% endif %}
+                        {% if artisan['phoneNumber'] %}
+                            <p>Téléphone : {{ artisan['phoneNumber'] }}</p>
+                        {% endif %}
+                        {% if artisan['email'] %}
+                            <p>Email : <a href="mailto:{{ artisan['email'] }}">{{ artisan['email'] }}</a></p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun artisan disponible trouvé.</p>
+        {% endif %}
+    </div>
+{% endblock %}

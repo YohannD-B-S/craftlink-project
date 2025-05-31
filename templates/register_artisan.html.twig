@@ -4,6 +4,16 @@
 
 {% block main %}
     <body class="register-page">
+    <!-- Affichage des messages flash -->
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
     <main>
         <div class="registration-container">
             <h2>Inscription Artisan</h2>
@@ -27,8 +37,8 @@
 
 
                 <div>
-                    <label for="adress">Votre adresse</label>
-                    <input type="text" id="adress" name="adress">
+                    <label for="address">Votre adresse</label>
+                    <input type="text" id="adress" name="address">
                 </div>
 
                 <div>

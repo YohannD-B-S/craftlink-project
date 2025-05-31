@@ -25,17 +25,38 @@ class ArtisanRepository extends ServiceEntityRepository
      */
     public function findAvailableArtisans(string $speciality, string $postalCode): array
     {
-        return $this->createQueryBuilder('a')
-            ->join('a.user', 'u') // Jointure avec l'utilisateur
+        $qb = $this->createQueryBuilder('a')
+            ->join('a.user', 'u')
             ->where('a.speciality = :speciality')
             ->andWhere('a.available = :available')
             ->andWhere('u.postalCode = :postalCode')
-            ->andWhere('u.roles LIKE :role') // Filtrer uniquement les artisans
+            ->andWhere('u.roles LIKE :role')
             ->setParameter('speciality', $speciality)
             ->setParameter('available', 'Disponible')
             ->setParameter('postalCode', $postalCode)
-            ->setParameter('role', '%ROLE_ARTISAN%') // Vérifier le rôle
-            ->getQuery()
-            ->getResult();
+            ->setParameter('role', '%ROLE_ARTISAN%')
+            ->addSelect('a.speciality', 'u.firstName', 'u.lastName', 'u.postalCode', 'u.phoneNumber', 'u.email', 'u.address'); // ✅ Ajout des données utilisateur
+
+        $artisans = $qb->getQuery()->getResult();
+
+        if (empty($artisans)) {
+            $departmentCode = substr($postalCode, 0, 2);
+
+            $qb = $this->createQueryBuilder('a')
+                ->join('a.user', 'u')
+                ->where('a.speciality = :speciality')
+                ->andWhere('a.available = :available')
+                ->andWhere('u.postalCode LIKE :departmentCode')
+                ->andWhere('u.roles LIKE :role')
+                ->setParameter('speciality', $speciality)
+                ->setParameter('available', 'Disponible')
+                ->setParameter('departmentCode', $departmentCode . '%')
+                ->setParameter('role', '%ROLE_ARTISAN%')
+                ->addSelect('a.speciality', 'u.firstName', 'u.lastName', 'u.postalCode', 'u.phoneNumber', 'u.email', 'u.address'); // ✅ Ajout des coordonnées utilisateur
+
+            $artisans = $qb->getQuery()->getResult();
+        }
+
+        return $artisans;
     }
 }

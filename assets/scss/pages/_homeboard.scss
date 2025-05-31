@@ -1,11 +1,15 @@
 @use '../abstracts/index' as *;
 
 body{
-  background-color: $primary-color;
+
   h1{
     font-family: "Inter", sans-serif;
     color: $secondary-color;
   }
+}
+
+.body-homeboard{
+  background-color: $primary-color;
 }
 
 .homeboard{

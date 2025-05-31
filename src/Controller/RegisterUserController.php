@@ -71,7 +71,7 @@ class RegisterUserController extends AbstractController{
             $firstName=$request->request->get('firstName');
             $lastName=$request->request->get('lastName');
             $email=$request->request->get('email');
-            $adress=$request->request->get('address');
+            $address=$request->request->get('address');
             $postal_code=$request->request->get('postal_code');
             $phone=$request->request->get('phone_number');
             $speciality=$request->request->get('speciality');
@@ -79,7 +79,8 @@ class RegisterUserController extends AbstractController{
             $user=new User();
             $passwordHash=$userPasswordHasher->hashPassword($user,$password);
             $created_at=new \DateTime();
-            $user->CreateArtisan($email, $passwordHash, $firstName, $speciality, $phone, $postal_code, $adress, $lastName, $created_at, $entityManager);
+            $user->CreateArtisan($email, $passwordHash, $firstName, $speciality, $phone, $postal_code, $address, $lastName, $created_at, $entityManager);
+
             try{
                 $entityManager->persist($user);
                 $entityManager->flush();
