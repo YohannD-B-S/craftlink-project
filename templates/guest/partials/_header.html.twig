@@ -30,7 +30,7 @@
             {% elseif 'ROLE_CLIENT' in app.user.roles %}
                 <a class="auth__user" href="{{ path('client-homeboard') }}" class="auth__link">Mon profil</a>
             {% elseif 'ROLE_ARTISAN' in app.user.roles %}
-                <a class="auth__user" href="{{ path('artisan-omeboard') }}" class="auth__link">Mon profil</a>
+                <a class="auth__user" href="{{ path('artisan-homeboard') }}" class="auth__link">Mon profil</a>
             {% endif %}
 
             <a class="auth__user" href="{{ path('logout') }}" class="auth__link">Déconnexion</a>
