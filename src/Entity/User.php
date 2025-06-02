@@ -58,11 +58,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: Artisan::class, mappedBy: "user", cascade: ["persist", "remove"])]
     private ?Artisan $artisan = null;
 
+    /**
+     * @var Collection<int, Message>
+     */
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'sender')]
+    private Collection $messages;
+
     public function __construct()
     {
-        $this->articles = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
-
     // Obligatoire pour UserInterface
     public function getUserIdentifier(): string
     {
@@ -190,6 +195,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAt(?\DateTime $updatedAt): self { $this->updatedAt = $updatedAt; return $this; }
     public function getSpeciality(): ?string { return $this->speciality; }
     public function setSpeciality(?string $speciality): self { $this->speciality = $speciality; return $this; }
-    public function getArtisan(): ?Artisan { return $this->artisan; }
-    public function setArtisan(?Artisan $artisan): self { $this->artisan = $artisan; return $this; }
+    public function getArtisan(): ?Artisan {
+        return $this->artisan;
+    }
+    public function setArtisan(?Artisan $artisan): self {
+        $this->artisan = $artisan;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getSender() === $this) {
+                $message->setSender(null);
+            }
+        }
+
+        return $this;
+    }
 }

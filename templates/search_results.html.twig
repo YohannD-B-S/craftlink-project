@@ -11,20 +11,30 @@
             <ul>
                 {% for artisan in artisans %}
                     <li>
-                        <strong>{{ artisan['speciality'] }}</strong> - {{ artisan['firstName'] }} {{ artisan['lastName'] }}
+                        <strong>{{ artisan.speciality }}</strong> -
+                        {% if artisan.user is defined %}
+                            {{ artisan.user.firstName }} {{ artisan.user.lastName }}
+                        {% else %}
+                            <em>Nom inconnu</em>
+                        {% endif %}
 
                         <!-- Affichage des coordonnées de l'artisan -->
-                        {% if artisan['address'] %}
-                            <p>Adresse : {{ artisan['address'] }}</p>
+                        {% if artisan.user is defined and artisan.user.address is not empty %}
+                            <p>Adresse : {{ artisan.user.address }}</p>
                         {% endif %}
-                        {% if artisan['postalCode'] %}
-                            <p>Code postal : {{ artisan['postalCode'] }}</p>
+                        {% if artisan.user is defined and artisan.user.postalCode is not empty %}
+                            <p>Code postal : {{ artisan.user.postalCode }}</p>
                         {% endif %}
-                        {% if artisan['phoneNumber'] %}
-                            <p>Téléphone : {{ artisan['phoneNumber'] }}</p>
+                        {% if artisan.user is defined and artisan.user.phoneNumber is not empty %}
+                            <p>Téléphone : {{ artisan.user.phoneNumber }}</p>
                         {% endif %}
-                        {% if artisan['email'] %}
-                            <p>Email : <a href="mailto:{{ artisan['email'] }}">{{ artisan['email'] }}</a></p>
+                        {% if artisan.user is defined and artisan.user.email is not empty %}
+                            <p>Email : <a href="mailto:{{ artisan.user.email }}">{{ artisan.user.email }}</a></p>
+                        {% endif %}
+
+                        <!-- Lien de contact -->
+                        {% if artisan.id is defined %}
+                            <a href="{{ path('contact_artisan', {id: artisan.id}) }}" class="btn">📩 Contacter</a>
                         {% endif %}
                     </li>
                 {% endfor %}

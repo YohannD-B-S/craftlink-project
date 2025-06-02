@@ -1,0 +1,13 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Contacter {{ artisan.user.firstName }} {{ artisan.user.lastName }}{% endblock %}
+
+{% block main %}
+    <div>
+        <h2>Envoyer un message à {{ artisan.user.firstName }} {{ artisan.user.lastName }}</h2>
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

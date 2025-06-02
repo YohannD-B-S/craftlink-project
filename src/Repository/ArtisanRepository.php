@@ -34,10 +34,9 @@ class ArtisanRepository extends ServiceEntityRepository
             ->setParameter('speciality', $speciality)
             ->setParameter('available', 'Disponible')
             ->setParameter('postalCode', $postalCode)
-            ->setParameter('role', '%ROLE_ARTISAN%')
-            ->addSelect('a.speciality', 'u.firstName', 'u.lastName', 'u.postalCode', 'u.phoneNumber', 'u.email', 'u.address'); // ✅ Ajout des données utilisateur
+            ->setParameter('role', '%ROLE_ARTISAN%');
 
-        $artisans = $qb->getQuery()->getResult();
+        $artisans = $qb->getQuery()->getResult(); // ✅ Assure que ce sont bien des objets Artisan
 
         if (empty($artisans)) {
             $departmentCode = substr($postalCode, 0, 2);
@@ -51,12 +50,11 @@ class ArtisanRepository extends ServiceEntityRepository
                 ->setParameter('speciality', $speciality)
                 ->setParameter('available', 'Disponible')
                 ->setParameter('departmentCode', $departmentCode . '%')
-                ->setParameter('role', '%ROLE_ARTISAN%')
-                ->addSelect('a.speciality', 'u.firstName', 'u.lastName', 'u.postalCode', 'u.phoneNumber', 'u.email', 'u.address'); // ✅ Ajout des coordonnées utilisateur
+                ->setParameter('role', '%ROLE_ARTISAN%');
 
             $artisans = $qb->getQuery()->getResult();
         }
 
-        return $artisans;
+        return $artisans; // ✅ Retourne bien des objets Artisan complets
     }
 }
