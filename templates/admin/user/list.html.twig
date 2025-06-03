@@ -2,21 +2,7 @@
 
 {% block title %}Liste des utilisateurs{% endblock %}
 
-{% block body %}
-
-    <main class="homeboard">
-        <section class="sidebar">
-            <ul>
-                <li><a href={{ path('admin-user') }}>Liste Utilisateurs</a></li>
-                <li><a>Tableau de bord artisan</a></li>
-                <li><a>Administration</a></li>
-                <li><a>Inscription client</a></li>
-                <li><a>Inscription artisan</a></li>
-            </ul>
-        </section>
-        <section class="homeboardInfo">
-
-
+{% block main %}
 
             <form method="get" action="{{ path('admin-user') }}">
                 <h1>Utilisateurs du site</h1>
@@ -29,7 +15,7 @@
                 {% if users is empty %}
                     <p>Aucun utilisateur trouvé.</p>
                 {% else %}
-                    <table class="table">
+                    <table>
                         <thead>
                         <tr>
                             <th>ID</th>

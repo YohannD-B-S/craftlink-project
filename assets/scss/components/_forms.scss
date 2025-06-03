@@ -1,8 +1,6 @@
 @use '../abstracts/index' as *;
 
 form {
-
-  font-family: "Inter", sans-serif;
   max-width: 50%;
   margin: auto;
   background: $background-color;
@@ -10,34 +8,28 @@ form {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid $secondary-color;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  textarea{
+    width: 80%;
+    height: 100%;
+
+  }
+
   .btn-submit {
     width: 80%;
   }
-
-}
-
-.form-title {
-  text-align: center;
-  color: $primary-color;
 }
 
 .form-group {
-  font-family: "Inter", sans-serif;
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid $secondary-color;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-textarea{
-  width: 80%;
-  height: 100%;
-
-}
 

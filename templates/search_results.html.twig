@@ -34,7 +34,7 @@
 
                         <!-- Lien de contact -->
                         {% if artisan.id is defined %}
-                            <a href="{{ path('contact_artisan', {id: artisan.id}) }}" class="btn">📩 Contacter</a>
+                            <a href="{{ path('contact_artisan', {id: artisan.id}) }}">📩 Contacter</a>
                         {% endif %}
                     </li>
                 {% endfor %}

@@ -1,21 +1,21 @@
 {% if currentRoute == 'index' %}
-<header id="header" class="header home-page">
+<header id="header" class="home-page">
     <div class="header__logo">
         <a href="{{ path('index') }}"><img src="{{ asset('asset/image/craftlinkwhite.png') }}" alt="Logo CraftLink"></a>
     </div>
 {% else %}
-<header id="header" class="header all-pages">
+<header id="header" class="all-pages">
     <div class="header__logo">
         <a href="{{ path('index') }}"><img src="{{ asset('asset/image/craftlinkblue.png') }}" alt="Logo CraftLink"></a>
     </div>
 {% endif %}
 
     {% if currentRoute == 'index' %}
-        <nav class="header__nav">
+        <nav>
             <ul class="nav__list">
-                <li class="nav__item"><a href="#sectionArticle1Home" class="nav__link">Qui sommes nous ?</a></li>
-                <li class="nav__item"><a href="#sectionArticle2Home" class="nav__link">Notre innovation</a></li>
-                <li class="nav__item"><a href="#sectionArticle3Home" class="nav__link">Nos objectifs</a></li>
+                <li><a href="#sectionArticle1Home">Qui sommes nous ?</a></li>
+                <li><a href="#sectionArticle2Home">Notre innovation</a></li>
+                <li><a href="#sectionArticle3Home">Nos objectifs</a></li>
             </ul>
         </nav>
     {% endif %}
@@ -26,24 +26,24 @@
             <h3>Bienvenue, {{ app.user.firstName }} {{ app.user.lastName }}</h3>
 
             {% if 'ROLE_ADMIN' in app.user.roles %}
-                <a class="auth__user" href="{{ path('admin-homeboard') }}" class="auth__link">Mon profil</a>
+                <a class="auth__user" href="{{ path('admin-homeboard') }}">Mon profil</a>
             {% elseif 'ROLE_CLIENT' in app.user.roles %}
-                <a class="auth__user" href="{{ path('client-homeboard') }}" class="auth__link">Mon profil</a>
+                <a class="auth__user" href="{{ path('client-homeboard') }}">Mon profil</a>
             {% elseif 'ROLE_ARTISAN' in app.user.roles %}
-                <a class="auth__user" href="{{ path('artisan-homeboard') }}" class="auth__link">Mon profil</a>
+                <a class="auth__user" href="{{ path('artisan-homeboard') }}">Mon profil</a>
             {% endif %}
 
-            <a class="auth__user" href="{{ path('logout') }}" class="auth__link">Déconnexion</a>
+            <a class="auth__user" href="{{ path('logout') }}">Déconnexion</a>
         {% else %}
             <div class="inscription">
                 <h3>S'inscrire</h3>
-                <a href="{{ path('register_client') }}" class="btn btn--primary">Particulier</a>
-                <a href="{{ path('register_artisan') }}" class="btn btn--primary">Entreprise</a>
+                <a href="{{ path('register_client') }}">Particulier</a>
+                <a href="{{ path('register_artisan') }}">Entreprise</a>
             </div>
 
             <div class="connexion">
                 <h3>Se connecter</h3>
-                <a href="{{ path('login') }}" class="btn btn--primary">Se connecter</a>
+                <a href="{{ path('login') }}">Se connecter</a>
             </div>
         {% endif %}
     </div>

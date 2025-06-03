@@ -8,7 +8,7 @@
     {# Affichage des messages flash uniquement pour "update" et "delete" #}
     {% if app.request.query.get('action') == 'update' %}
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
+            <div>
                 {{ message }}
             </div>
         {% endfor %}
@@ -16,9 +16,9 @@
     {% if articles is empty %}
         <p>Aucun article disponible pour le moment.</p>
     {% else %}
-        <div class="article-list">
+        <div>
             {% for article in articles %}
-                <div class="article-card">
+                <div>
                     <h2><a href="{{ path('artisan-list-articles', { id: article.id }) }}">{{ article.title }}</a></h2>
                     <p>{{ article.content|slice(0, 150) }}...</p>
                     <p>Publié le {{ article.createdAt|date('d/m/Y') }} par {{ article.author.firstName }}</p>
@@ -27,7 +27,7 @@
                         <p>Mis à jour le {{ article.updatedAt|date('d/m/Y') }}</p>
                     {% endif %}
 
-                    <a href="{{ path('artisan-update_article', { id: article.id, action: 'update' }) }}" class="btn btn-warning">Modifier</a>
+                    <a href="{{ path('artisan-update_article', { id: article.id, action: 'update' }) }}">Modifier</a>
                 </div>
             {% endfor %}
         </div>

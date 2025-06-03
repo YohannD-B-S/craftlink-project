@@ -1,14 +1,8 @@
 @use '../abstracts/index' as *;
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing: border-box;
-}
 
 header.all-pages{
   background-color: #294C6D;
-  font-family: "Inter", sans-serif;
 
   h3{
     color:white;
@@ -20,11 +14,10 @@ header.all-pages{
       color: white;
     }
     }
-  }
+}
 
   .nav__list {
     a {
-
       color: white;
       padding: 10px;
 
@@ -47,9 +40,7 @@ header.all-pages{
 
 
 header{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @include flex(row, space-between, center);
   background-color: white;
   padding:20px;
 h3{
@@ -62,13 +53,9 @@ nav{
 
  width:50%;
 .nav__list{
-  list-style: none;
-  text-decoration: none;
   display: flex;
   justify-content: space-between;
   a{
-    text-decoration: none;
-    font-family: "Inter", sans-serif;
     color: $primary-color;
     transition: all 0.3s ease-in-out;
     &:hover{
@@ -82,20 +69,12 @@ nav{
 
 .header__logo{
   width: 200px;
-  img{
-     width: 100%;
-   }
 }
 
 .header__auth{
-
   width:25%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-
+  @include flex(row, space-between, flex-start);
   a{
-    font-family: "Inter", sans-serif;
     background-color: white;
     color:$primary-color;
     &:hover {
@@ -106,7 +85,7 @@ nav{
   h3{
     font-size: 1rem;
   }
-  .inscription{
+  .inscription, .connexion{
     width:45%;
     a{
       @include bouton;
@@ -114,9 +93,7 @@ nav{
   }
 
   .connexion{
-    width:45%;
     a{
-      @include bouton;
       background-color: $primary-color;
       color:$background-color;
     }

@@ -4,22 +4,22 @@
 <main>
     <!-- Affichage des messages flash -->
     {% for message in app.flashes('danger') %}
-        <div class="alert alert-danger">{{ message }}</div>
+        <div>{{ message }}</div>
     {% endfor %}
     {% for message in app.flashes('warning') %}
-        <div class="alert alert-warning">{{ message }}</div>
+        <div>{{ message }}</div>
     {% endfor %}
     {% for message in app.flashes('success') %}
-        <div class="alert alert-success">{{ message }}</div>
+        <div>{{ message }}</div>
     {% endfor %}
 
 
-    <article id="find-artisan" class="article article--artisan">
+    <article id="find-artisan">
         <div class="article__media">
             <img src="{{ asset('asset/image/craftlinkblue.png') }}" alt="Présentation de CraftLink">
         </div>
         <div class="article__content">
-            <h2 class="article__slogan">"La Construction commence par la Connexion"</h2>
+            <h2>"La Construction commence par la Connexion"</h2>
         </div>
         <div>
             <form action="{{ path('search_artisan') }}" method="GET">
@@ -38,7 +38,7 @@
 
     <section id="sectionArticle1Home">
         <h2 class="article__title">Qui sommes nous ?</h2>
-            <article id="articleOneHome" class="article article--about">
+            <article id="articleOneHome">
                 <div class="article__media">
                  <img src="{{ asset('asset/image/craftlinkHomeArticle1.jpg') }}" alt="Présentation de CraftLink">
                  </div>
@@ -49,7 +49,7 @@
     </section>
     <section id="sectionArticle2Home">
          <h2 class="article__title">Nos Innovations</h2>
-            <article id="articleOneHome" class="article article--about">
+            <article id="articleOneHome">
                 <div class="article__content">
                     <p class="article__text">Nous allons bien au-delà de la simple mise en relation avec des artisans. Notre ambition est de vous armer face aux imprévus : qu'il s'agisse d'un cambriolage, d'une fuite d'eau ou de tout autre incident urgent, nous vous fournissons des conseils pratiques et des démarches adaptées pour réagir efficacement. Grâce à notre plateforme, vous bénéficiez d'une source d'information fiable et d'outils pour guider vos actions en situation critique. Parallèlement, nous favorisons un bouche-à-oreille authentique et moderne en vous offrant la possibilité de créer et de partager votre réseau personnel d'artisans de confiance avec vos proches. Nos innovations visent ainsi à transformer chaque urgence en une opportunité d'apprendre, de s'entraider et de renforcer la sécurité de chacun.</p>
                 </div>
@@ -60,7 +60,7 @@
     </section>
     <section id="sectionArticle3Home">
     <h2 class="article__title">Nos Objectifs </h2>
-    <article id="articleOneHome" class="article article--about">
+    <article id="articleOneHome">
         <div class="article__media">
             <img src="{{ asset('asset/image/CraftlinkHomeArticle3.jpg') }}" alt="Présentation de CraftLink">
         </div>

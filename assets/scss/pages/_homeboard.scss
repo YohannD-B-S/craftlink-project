@@ -1,9 +1,7 @@
 @use '../abstracts/index' as *;
 
 body{
-
   h1{
-    font-family: "Inter", sans-serif;
     color: $secondary-color;
   }
 }
@@ -21,9 +19,7 @@ body{
 .homeboardInfo{
   border-radius: 20px;
   min-height: 85vh;
-  background-color: grey
-
-;
+  background-color: grey;
   background-image: url("../asset/image/craftlinkgrey.png");
   background-position: center;
   background-repeat: no-repeat;

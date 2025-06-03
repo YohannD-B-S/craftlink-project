@@ -1,5 +1,16 @@
 @font-face {
   font-family:'Iowan Roman';
   src:url('../../../public/asset/font/bitstream-iowan-old-style-bold-bt-586c371d8d669.ttf');
+}
 
+*{
+  font-family: "Inter", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-family: "Inter", sans-serif;
+}
+
+p, a, span, label {
+  font-family: "Inter", sans-serif;
 }
