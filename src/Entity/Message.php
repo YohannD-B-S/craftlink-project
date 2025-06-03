@@ -26,6 +26,9 @@ class Message
     #[ORM\Column(type: 'datetime', nullable: false)]
     private \DateTime $sentAt;
 
+    #[ORM\ManyToOne(inversedBy: 'messages')]
+    private ?Conversation $conversation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class Message
     public function setSentAt(\DateTime $sentAt): self
     {
         $this->sentAt = $sentAt;
+        return $this;
+    }
+
+    public function getConversation(): ?Conversation
+    {
+        return $this->conversation;
+    }
+
+    public function setConversation(?Conversation $conversation): static
+    {
+        $this->conversation = $conversation;
+
         return $this;
     }
 }
