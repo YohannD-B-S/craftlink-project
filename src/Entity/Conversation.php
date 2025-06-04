@@ -21,11 +21,12 @@ class Conversation
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'conversations')]
     private ?User $participantTwo = null;
 
-    /**
-     * @var Collection<int, Message>
-     */
+    /** @var Collection<int, Message> */
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'conversation', cascade: ['remove'])]
     private Collection $messages;
+
+    #[ORM\Column(type: 'string', length: 20)]
+    private string $status = 'pending'; // ✅ La conversation est en attente par défaut
 
     public function __construct()
     {
@@ -45,7 +46,6 @@ class Conversation
     public function setParticipantOne(?User $participantOne): static
     {
         $this->participantOne = $participantOne;
-
         return $this;
     }
 
@@ -57,13 +57,10 @@ class Conversation
     public function setParticipantTwo(?User $participantTwo): static
     {
         $this->participantTwo = $participantTwo;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Message>
-     */
+    /** @return Collection<int, Message> */
     public function getMessages(): Collection
     {
         return $this->messages;
@@ -71,7 +68,7 @@ class Conversation
 
     public function addMessage(Message $message): static
     {
-        if (!$this->messages->contains($message)) {
+        if (!$this->messages->contains($message) && $this->status === 'accepted') { // ✅ Ajout uniquement si la conversation est active
             $this->messages->add($message);
             $message->setConversation($this);
         }
@@ -87,6 +84,17 @@ class Conversation
             }
         }
 
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
         return $this;
     }
 }

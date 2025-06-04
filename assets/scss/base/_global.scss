@@ -3,7 +3,9 @@
 .flex-cl-center{
 @include flex(column, center, center)
 }
-
+main{
+  min-height: 80vh;
+}
 img{
   width: 100%;
   height: auto;

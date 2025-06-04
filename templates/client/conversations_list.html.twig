@@ -1,0 +1,24 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}💬 Mes Conversations{% endblock %}
+
+{% block main %}
+    <main id="main-content" class="homeboard-client">
+        <h2>Mes Conversations</h2>
+
+        {% if conversations is defined and conversations|length > 0 %}
+            <ul>
+                {% for conversation in conversations %}
+                    {% set interlocutor = (conversation.getParticipantOne == app.user) ? conversation.getParticipantTwo : conversation.getParticipantOne %}
+                    <li>
+                        <a href="{{ path('view_conversation', {'id': conversation.id}) }}" data-link>
+                            📩 Conversation avec {{ interlocutor.firstName }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucune conversation trouvée.</p>
+        {% endif %}
+    </main>
+{% endblock %}

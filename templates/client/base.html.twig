@@ -11,13 +11,47 @@
 
 {% include 'client/partials/_header.html.twig' with { 'currentRoute': app.request.attributes.get('_route') } %}
 
+{% include 'client/partials/_sidebar.html.twig' with { 'currentRoute': app.request.attributes.get('_route') } %}
+
 {% block main %}
 
 {% endblock main %}
-
 {% block javascripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sectionContainer = document.querySelector("main section"); // ✅ Cible uniquement la première section
+            const links = document.querySelectorAll("[data-link]");
 
+            links.forEach(link => {
+                link.addEventListener("click", event => {
+                    event.preventDefault(); // Empêche le rechargement complet
+
+                    fetch(link.href)
+                        .then(response => response.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, "text/html");
+                            const newContent = doc.querySelector("main section")?.innerHTML;
+                            if (newContent) {
+                                sectionContainer.innerHTML = newContent; // ✅ Remplace uniquement la section ciblée
+                                history.pushState(null, "", link.href);
+                            } else {
+                                console.error("Erreur : Le contenu de la section n'a pas été trouvé.");
+                            }
+                        })
+                        .catch(error => console.error("Erreur de chargement :", error));
+                });
+            });
+
+            window.addEventListener("popstate", () => {
+                location.reload();
+            });
+        });
+    </script>
 {% endblock %}
+
+{% include 'client/partials/_footer.html.twig' with {'cikrrentRoute':app.request.attributes.get('_route')} %}
+
 </body>
 </html>
 

@@ -6,6 +6,8 @@ use App\Repository\ArtisanRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
+use App\Entity\Message;
 
 #[ORM\Entity(repositoryClass: ArtisanRepository::class)]
 class Artisan
@@ -21,22 +23,17 @@ class Artisan
     #[ORM\Column(length: 255)]
     private ?string $speciality = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $available = null;
+    #[ORM\Column(type: 'boolean', nullable: false)]
+    private bool $available = true; // ✅ Ajout de `nullable: false`
 
-    /**
-     * @var Collection<int, Message>
-     */
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'recipient')]
+    /** @var Collection<int, Message> */
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'recipient', cascade: ['persist', 'remove'])]
     private Collection $messages;
 
-    /**
-     * @var Collection<int, Message>
-     */
     public function __construct()
     {
-        $this->content = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->available = true;
     }
 
     public function getId(): ?int
@@ -44,15 +41,14 @@ class Artisan
         return $this->id;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?user $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -64,25 +60,21 @@ class Artisan
     public function setSpeciality(string $speciality): static
     {
         $this->speciality = $speciality;
-
         return $this;
     }
 
-    public function getAvailable(): ?string
+    public function isAvailable(): bool
     {
         return $this->available;
     }
 
-    public function setAvailable(string $available): static
+    public function setAvailable(bool $available): static // ✅ Correction du type en bool
     {
         $this->available = $available;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Message>
-     */
+    /** @return Collection<int, Message> */
     public function getMessages(): Collection
     {
         return $this->messages;
@@ -94,19 +86,27 @@ class Artisan
             $this->messages->add($message);
             $message->setRecipient($this);
         }
-
         return $this;
     }
 
     public function removeMessage(Message $message): static
     {
         if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
             if ($message->getRecipient() === $this) {
                 $message->setRecipient(null);
             }
         }
-
         return $this;
+    }
+
+    // ✅ Optimisation de `__toString()`
+    public function __toString(): string
+    {
+        return sprintf(
+            '%s - %s [%s]',
+            $this->user ? $this->user->getFirstName() : 'Inconnu',
+            $this->speciality ?: 'Spécialité inconnue',
+            $this->available ? 'Disponible' : 'Indisponible'
+        );
     }
 }

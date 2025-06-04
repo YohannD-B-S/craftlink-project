@@ -17,43 +17,72 @@ use App\Entity\User;
 
 class MessageController extends AbstractController
 {
-    #[Route('/contact_artisan/{id}', name: 'contact_artisan', methods: ['GET', 'POST'])]
-    public function contactArtisan(
-        Request $request,
-        FormFactoryInterface $formFactory,
-        EntityManagerInterface $entityManager,
-        Artisan $artisan
-    ): Response {
+    #[Route('/artisan/mes-conversations', name: 'artisan_list_conversations')]
+    public function listArtisanConversations(EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour voir vos conversations.');
+        }
+
+        // Vérifier que l'utilisateur est un artisan
+        $artisan = $entityManager->getRepository(Artisan::class)->findOneBy(['user' => $user]);
+        if (!$artisan) {
+            throw $this->createAccessDeniedException('Seuls les artisans ont accès à cette page.');
+        }
+
+        // Récupérer toutes les conversations où l’artisan est participant
+        $conversations = $entityManager->getRepository(Conversation::class)->findBy([
+                'participantOne' => $user
+            ]) + $entityManager->getRepository(Conversation::class)->findBy([
+                'participantTwo' => $user
+            ]);
+
+        return $this->render('artisan/conversations_list.html.twig', [
+            'conversations' => $conversations
+        ]);
+    }
+    #[Route('/mes-conversations', name: 'list_conversations')]
+    public function listConversations(EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour voir vos conversations.');
+        }
+
+        // Récupérer toutes les conversations de l’utilisateur (artisan ou client)
+        $conversations = $entityManager->getRepository(Conversation::class)->findBy([
+                'participantOne' => $user
+            ]) + $entityManager->getRepository(Conversation::class)->findBy([
+                'participantTwo' => $user
+            ]);
+
+        return $this->render('client/conversations_list.html.twig', [
+            'conversations' => $conversations
+        ]);
+    }
+    #[Route('/conversation/{id}', name: 'view_conversation')]
+    public function viewConversation(int $id, Request $request, FormFactoryInterface $formFactory, EntityManagerInterface $entityManager): Response
+    {
         $user = $this->getUser();
 
-        if (!$user instanceof User) {
-            throw new \LogicException('L’utilisateur connecté n’est pas du type attendu.');
-        }
         if (!$user) {
-            $this->addFlash('danger', 'Vous devez être connecté pour envoyer un message.');
-            return $this->redirectToRoute('login');
+            throw $this->createAccessDeniedException('Vous devez être connecté pour accéder aux conversations.');
         }
 
-        // Vérifier si une conversation existe déjà
-        $conversation = $entityManager->getRepository(Conversation::class)->findOneBy([
-            'participantOne' => $user,
-            'participantTwo' => $artisan->getUser()
-        ]) ?? $entityManager->getRepository(Conversation::class)->findOneBy([
-            'participantOne' => $artisan->getUser(),
-            'participantTwo' => $user
-        ]);
+        $conversation = $entityManager->getRepository(Conversation::class)->find($id);
 
-        // Si aucune conversation n'existe, en créer une
-        if (!$conversation) {
-            $conversation = new Conversation();
-            $conversation->setParticipantOne($user);
-            $conversation->setParticipantTwo($artisan->getUser());
-
-            $entityManager->persist($conversation);
-            $entityManager->flush();
+        if (!$conversation || ($conversation->getParticipantOne() !== $user && $conversation->getParticipantTwo() !== $user)) {
+            throw $this->createAccessDeniedException('Vous n’êtes pas autorisé à voir cette conversation.');
         }
 
-        // Création du formulaire d'envoi de message
+        // ✅ Récupérer les messages de la conversation
+        $messages = $entityManager->getRepository(Message::class)->findBy(
+            ['conversation' => $conversation],
+            ['sentAt' => 'ASC']
+        );
+
+        // ✅ Ajouter la création du formulaire pour répondre
         $form = $formFactory->createBuilder()
             ->add('content', TextareaType::class, ['label' => 'Votre message'])
             ->add('send', SubmitType::class, ['label' => 'Envoyer'])
@@ -62,75 +91,27 @@ class MessageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Enregistrement du message
             $message = new Message();
             $message->setSender($user);
-            $message->setRecipient($artisan->getUser());
+            $message->setRecipient($conversation->getParticipantOne() === $user ? $conversation->getParticipantTwo() : $conversation->getParticipantOne());
             $message->setConversation($conversation);
             $message->setContent($form->get('content')->getData());
             $message->setSentAt(new \DateTime());
+            $message->setIsRead(false);
 
             $entityManager->persist($message);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre message a été envoyé.');
+            $this->addFlash('success', 'Message envoyé !');
             return $this->redirectToRoute('view_conversation', ['id' => $conversation->getId()]);
         }
 
-        return $this->render('client/contact_artisan.html.twig', [
-            'form' => $form->createView(),
-            'artisan' => $artisan
-        ]);
-    }
+        $template = ($user === $conversation->getParticipantOne()) ? 'client/conversation.html.twig' : 'artisan/conversation.html.twig';
 
-    #[Route('/conversation/{id}', name: 'view_conversation', methods: ['GET', 'POST'])]
-    public function viewConversation(
-        int $id,
-        Request $request,
-        EntityManagerInterface $entityManager
-    ): Response {
-        $artisan = $this->getUser()->getArtisan();
-
-        if (!$artisan) {
-            $this->addFlash('danger', 'Vous devez être un artisan pour accéder à cette page.');
-            return $this->redirectToRoute('home');
-        }
-
-        // Récupérer la conversation et ses messages
-        $conversation = $entityManager->getRepository(Conversation::class)->find($id);
-        $messages = $entityManager->getRepository(Message::class)->findBy(
-            ['conversation' => $conversation],
-            ['sentAt' => 'ASC']
-        );
-
-        // Formulaire de réponse
-        $formFactory = $this->container->get('form.factory');
-        $form = $formFactory->createBuilder()
-            ->add('content', TextareaType::class, ['label' => 'Votre réponse'])
-            ->add('send', SubmitType::class, ['label' => 'Envoyer'])
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $responseMessage = new Message();
-            $responseMessage->setSender($artisan->getUser());
-            $responseMessage->setRecipient($conversation->getParticipantTwo());
-            $responseMessage->setConversation($conversation);
-            $responseMessage->setContent($form->get('content')->getData());
-            $responseMessage->setSentAt(new \DateTime());
-
-            $entityManager->persist($responseMessage);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Votre réponse a été envoyée.');
-            return $this->redirectToRoute('view_conversation', ['id' => $id]);
-        }
-
-        return $this->render('artisan/message/conversation.html.twig', [
+        return $this->render($template, [
+            'conversation' => $conversation,
             'messages' => $messages,
-            'form' => $form->createView(),
-            'conversation' => $conversation
+            'form' => $form->createView()
         ]);
     }
 }

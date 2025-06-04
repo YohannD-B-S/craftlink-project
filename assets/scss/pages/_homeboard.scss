@@ -16,10 +16,10 @@ body{
   position: relative;
 }
 
-.homeboardInfo{
+.homeboard{
   border-radius: 20px;
   min-height: 85vh;
-  background-color: grey;
+  background-color: $background-color;
   background-image: url("../asset/image/craftlinkgrey.png");
   background-position: center;
   background-repeat: no-repeat;

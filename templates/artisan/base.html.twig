@@ -7,16 +7,45 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 </head>
-<body>
+<body class="body-homeboard">
 
 {% include 'artisan/partials/_header.html.twig' with { 'currentRoute': app.request.attributes.get('_route') } %}
 
 {% block main %}
 
 {% endblock main %}
-
 {% block javascripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const mainContainer = document.querySelector("#main-content");
+            const links = document.querySelectorAll("[data-link]");
 
+            links.forEach(link => {
+                link.addEventListener("click", event => {
+                    event.preventDefault(); // Empêche le rechargement complet
+
+                    fetch(link.href)
+                        .then(response => response.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, "text/html");
+                            const newContent = doc.querySelector("#main-content")?.innerHTML;
+                            if (newContent) {
+                                mainContainer.innerHTML = newContent;
+                                history.pushState(null, "", link.href);
+                            } else {
+                                console.error("Erreur : Le contenu de <main> n'a pas été trouvé.");
+                            }
+                        })
+                        .catch(error => console.error("Erreur de chargement :", error));
+                });
+            });
+
+            window.addEventListener("popstate", () => {
+                location.reload();
+            });
+        });
+    </script>
 {% endblock %}
 </body>
 </html>

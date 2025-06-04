@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}💬 Conversation{% endblock %}
+
+{% block main %}
+    <h2>Conversation avec {{ conversation.getParticipantOne.firstName }}</h2>
+
+    {% include 'base_conversation.html.twig' %}
+
+    {% if conversation.status == 'pending' %}
+        <a href="{{ path('accept_conversation', {'id': conversation.id}) }}" class="btn btn-success">Accepter la conversation</a>
+    {% else %}
+        <h3>Envoyer un message</h3>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    {% endif %}
+{% endblock %}

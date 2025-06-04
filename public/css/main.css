@@ -237,6 +237,10 @@ p, a, span, label {
   align-items: center;
 }
 
+main {
+  min-height: 80vh;
+}
+
 img {
   width: 100%;
   height: auto;
@@ -370,10 +374,10 @@ body h1 {
   position: relative;
 }
 
-.homeboardInfo {
+.homeboard {
   border-radius: 20px;
   min-height: 85vh;
-  background-color: grey;
+  background-color: #F7F3E9;
   background-image: url("../asset/image/craftlinkgrey.png");
   background-position: center;
   background-repeat: no-repeat;

@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
+use App\Entity\Conversation;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
@@ -14,11 +16,11 @@ class Message
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    private ?user $sender = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'messages', cascade: ['persist', 'remove'])]
+    private ?User $sender = null;
 
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    private ?artisan $recipient = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'messages', cascade: ['persist', 'remove'])]
+    private ?User $recipient = null; // ✅ Tout utilisateur peut être destinataire
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
@@ -26,35 +28,41 @@ class Message
     #[ORM\Column(type: 'datetime', nullable: false)]
     private \DateTime $sentAt;
 
-    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\ManyToOne(targetEntity: Conversation::class, inversedBy: 'messages', cascade: ['remove'])]
     private ?Conversation $conversation = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $isRead = false; // ✅ Initialisation à `false` pour éviter `null`
+
+    public function __construct()
+    {
+        $this->sentAt = new \DateTime(); // ✅ Initialisation automatique
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getSender(): ?user
+    public function getSender(): ?User
     {
         return $this->sender;
     }
 
-    public function setSender(?user $sender): static
+    public function setSender(?User $sender): static
     {
         $this->sender = $sender;
-
         return $this;
     }
 
-    public function getRecipient(): ?artisan
+    public function getRecipient(): ?User
     {
         return $this->recipient;
     }
 
-    public function setRecipient(?artisan $recipient): static
+    public function setRecipient(?User $recipient): static
     {
         $this->recipient = $recipient;
-
         return $this;
     }
 
@@ -66,7 +74,6 @@ class Message
     public function setContent(string $content): static
     {
         $this->content = $content;
-
         return $this;
     }
 
@@ -75,7 +82,7 @@ class Message
         return $this->sentAt;
     }
 
-    public function setSentAt(\DateTime $sentAt): self
+    public function setSentAt(\DateTime $sentAt): static
     {
         $this->sentAt = $sentAt;
         return $this;
@@ -89,7 +96,17 @@ class Message
     public function setConversation(?Conversation $conversation): static
     {
         $this->conversation = $conversation;
+        return $this;
+    }
 
+    public function isRead(): bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): static
+    {
+        $this->isRead = $isRead;
         return $this;
     }
 }

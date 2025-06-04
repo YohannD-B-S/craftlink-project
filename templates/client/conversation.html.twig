@@ -1,0 +1,12 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}💬 Conversation{% endblock %}
+
+{% block main %}
+    <h2>Conversation avec {{ conversation.getParticipantTwo.firstName }}</h2>
+
+    <h3>Envoyer un message</h3>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}
