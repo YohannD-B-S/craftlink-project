@@ -3,14 +3,25 @@
     <div class="header__logo">
         <a href="{{ path('index') }}"><img src="{{ asset('asset/image/craftlinkblue.png') }}" alt="Logo CraftLink"></a>
     </div>
-        <nav>
-            <ul class="nav__list">
-                <li><a href="{{ path('artisan-list-articles') }}">Articles </a></li>
-                <li><a>Messages</a></li>
-                <li><a href="{{ path('artisan-create_article') }}">Créer un article</a></li>
-            </ul>
-        </nav>
-
+    <nav>
+        <ul class="nav__list">
+            <li>
+                <a href="{{ path('artisan-list-articles') }}"
+                   class="{% if app.request.getRequestUri == path('artisan-list-articles') %}active-link{% endif %}">
+                    Articles
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('artisan-create_article') }}"
+                   class="{% if app.request.getRequestUri == path('artisan-create_article') %}active-link{% endif %}">
+                    Créer un article
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('artisan_list_conversations') }}">Mes mesages </a>
+            </li>
+        </ul>
+    </nav>
     <div class="header__auth">
         {% if app.user %}
             <h3>Bienvenue, {{ app.user.firstName }} {{ app.user.lastName }}</h3>

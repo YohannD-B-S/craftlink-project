@@ -179,6 +179,11 @@ nav .nav__list a:hover {
   margin: 0 auto;
 }
 
+.conversation-container {
+  background-color: white;
+  border-radius: 25px;
+}
+
 .sidebar {
   width: 15%;
   background-color: #294C6D;
@@ -366,12 +371,6 @@ body h1 {
 
 .body-homeboard {
   background-color: #294C6D;
-}
-
-.homeboard {
-  display: flex;
-  width: 100%;
-  position: relative;
 }
 
 .homeboard {
