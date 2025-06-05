@@ -1,3 +1,5 @@
+
+
 <div class="messages">
     {% if messages|length > 0 %}
         {% for message in messages %}
@@ -11,3 +13,22 @@
         <p class="no-messages">Aucun message pour le moment.</p>
     {% endif %}
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const messagesContainer = document.querySelector('.messages');
+
+        function scrollToBottom() {
+            requestAnimationFrame(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            });
+        }
+
+        // Scroll au chargement de la page
+        scrollToBottom();
+
+        // Scroll après envoi d'un message
+        document.querySelector('form').addEventListener('submit', () => {
+            setTimeout(scrollToBottom, 50);
+        });
+    });
+</script>

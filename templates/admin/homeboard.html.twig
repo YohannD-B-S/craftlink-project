@@ -1,7 +1,20 @@
 {% extends 'admin/base.html.twig' %}
 
 
-
 {% block main %}
-{% endblock main %}
+    <main class="homeboard">
+        <section class="homeboardInfo">
+            <h2>Bienvenue, {{ app.user.firstName }} {{ app.user.lastName }}</h2>
+
+            <ul>
+                <li><strong>Email :</strong> {{ app.user.email }}</li>
+                <li><strong>Rôle :</strong> {{ app.user.roles|join(', ') }}</li>
+                <li><strong>Date d'inscription :</strong> {{ app.user.createdAt|date('d/m/Y') }}</li>
+            </ul>
+
+            <a href="{{ path('admin-user') }}" class="btn btn-primary">Gérer mon profil</a>
+        </section>
+    </main>
+{% endblock %}
+
 

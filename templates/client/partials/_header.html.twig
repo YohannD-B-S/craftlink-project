@@ -1,15 +1,9 @@
-{% if currentRoute == 'client-homeboard'%}
+
 <header id="header" class="all-pages">
     <div class="header__logo">
         <a href="{{ path('index') }}"><img src="{{ asset('asset/image/craftlinkblue.png') }}" alt="Logo CraftLink"></a>
     </div>
-    {% else %}
-        <div class="header__logo">
-            <a href="{{ path('index') }}"><img src="{{ asset('asset/image/craftlinkblue.png') }}" alt="Logo CraftLink"></a>
-        </div>
-    {% endif %}
-
-    {% if currentRoute == 'client-homeboard' %}
+    {% if currentRoute starts with 'client-' %}
         <nav>
             <ul class="nav__list">
                 <li><a>contact artisan</a></li>

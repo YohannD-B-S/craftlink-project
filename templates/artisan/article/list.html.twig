@@ -2,8 +2,12 @@
 
 {% block title %}Liste des Articles{% endblock %}
 
-{% block body %}
+{% block main %}
+    <main class="homeboard">
+    <section class="homeboardInfo">
+
     <h1>Articles publiés</h1>
+
 
     {# Affichage des messages flash uniquement pour "update" et "delete" #}
     {% if app.request.query.get('action') == 'update' %}
@@ -32,4 +36,6 @@
             {% endfor %}
         </div>
     {% endif %}
+    </section>
+    </main>
 {% endblock %}

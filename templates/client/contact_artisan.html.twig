@@ -3,6 +3,9 @@
 {% block title %}Contacter {{ artisan.user.firstName }} {{ artisan.user.lastName }}{% endblock %}
 
 {% block main %}
+    <main class="homeboard">
+        <section class="homeboardInfo">
+
     <div>
         <h2>Envoyer un message à {{ artisan.user.firstName }} {{ artisan.user.lastName }}</h2>
 
@@ -10,4 +13,6 @@
         {{ form_widget(form) }}
         {{ form_end(form) }}
     </div>
+        </section>
+    </main>
 {% endblock %}

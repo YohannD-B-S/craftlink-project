@@ -3,22 +3,26 @@
 {% block title %}💬 Mes Conversations{% endblock %}
 
 {% block main %}
-    <main id="main-content" class="homeboard-client">
-        <h2>Mes Conversations</h2>
+    <main class="homeboard">
+    <section class="homeboardInfo">
+    <h2>Mes Conversations</h2>
 
-        {% if conversations is defined and conversations|length > 0 %}
-            <ul>
-                {% for conversation in conversations %}
+    {% if conversations is defined and conversations|length %}
+        <ul>
+            {% for conversation in conversations %}
+                {% if conversation.getParticipantOne is defined and conversation.getParticipantTwo is defined %}
                     {% set interlocutor = (conversation.getParticipantOne == app.user) ? conversation.getParticipantTwo : conversation.getParticipantOne %}
                     <li>
-                        <a href="{{ path('view_conversation', {'id': conversation.id}) }}" data-link>
-                            📩 Conversation avec {{ interlocutor.firstName }}
+                        <a href="{{ path('view_conversation', {'id': conversation.id}) }}">
+                            {{ interlocutor.firstName }} {{ interlocutor.lastName }}
                         </a>
                     </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Aucune conversation trouvée.</p>
-        {% endif %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucune conversation trouvée.</p>
+    {% endif %}
+    </section>
     </main>
 {% endblock %}

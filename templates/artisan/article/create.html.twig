@@ -3,6 +3,8 @@
 
 
 {% block main%}
+<main class="homeboard">
+    <section class="homeboardInfo">
 
     <h1>Créer un article</h1>
     <form action="{{ path('artisan-create_article') }}" method="post">
@@ -14,5 +16,8 @@
 
         <button type="submit">Publier</button>
     </form>
+
+    </section>
+</main>
 
 {% endblock %}

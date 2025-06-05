@@ -1,18 +1,43 @@
-{% extends 'base.html.twig' %}
+{% extends 'artisan/base.html.twig' %}
 
-{% block title %}💬 Conversation{% endblock %}
+{% block title %}💬 Messages reçus{% endblock %}
 
 {% block main %}
-    <h2>Conversation avec {{ conversation.getParticipantOne.firstName }}</h2>
+    <main class="homeboard">
+    <section class="homeboardInfo">
 
-    {% include 'base_conversation.html.twig' %}
 
-    {% if conversation.status == 'pending' %}
-        <a href="{{ path('accept_conversation', {'id': conversation.id}) }}" class="btn btn-success">Accepter la conversation</a>
-    {% else %}
-        <h3>Envoyer un message</h3>
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {{ form_end(form) }}
-    {% endif %}
+    <div class="conversation-container">
+        {% if conversation and conversation.getParticipantTwo %}
+            <h2>Conversation avec {{ conversation.getParticipantTwo.firstName }}</h2>
+        {% else %}
+            <h2>Conversation introuvable</h2>
+        {% endif %}
+
+        <div class="messages">
+            {% if messages|length > 0 %}
+                {% for message in messages %}
+                    <div class="message {% if message.sender == app.user %}sent{% else %}received{% endif %} {% if not message.isRead and message.recipient == app.user %}unread{% endif %}">
+                        <p><strong>{{ message.sender.firstName }} :</strong> {{ message.content }}</p>
+                        <span class="date">{{ message.sentAt|date('d/m/Y H:i') }}</span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-messages">Aucun message pour le moment.</p>
+            {% endif %}
+        </div>
+
+        <!-- Formulaire de réponse -->
+        {% if form is defined %}
+            <h3>Répondre</h3>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        {% else %}
+            <p class="error">Le formulaire de réponse n'est pas disponible.</p>
+        {% endif %}
+    </div>
+
+    </section>
+    </main>
 {% endblock %}

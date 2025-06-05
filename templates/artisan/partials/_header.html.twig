@@ -1,23 +1,15 @@
-{% if currentRoute == 'artisan-homeboard' %}
+
 <header id="header" class="all-pages">
     <div class="header__logo">
         <a href="{{ path('index') }}"><img src="{{ asset('asset/image/craftlinkblue.png') }}" alt="Logo CraftLink"></a>
     </div>
-
-    {% else %}
-        <div class="header__logo">
-            <a href="{{ path('index') }}"><img src="{{ asset('asset/image/craftlinkblue.png') }}" alt="Logo CraftLink"></a>
-        </div>
-    {% endif %}
-
-    {% if currentRoute == 'artisan-homeboard' %}
         <nav>
             <ul class="nav__list">
-                <li><a href="{{ path('artisan-create_article') }}">Création Article</a></li>
-                <li><a href="{{ path('artisan-list-articles') }}">Liste Article</a></li>
-                <li></li><a href="{{ path('artisan_list_conversations') }}">Voir mes conversations</a></li>
-    {% endif %}
-
+                <li><a href="{{ path('artisan-list-articles') }}">Articles </a></li>
+                <li><a>Messages</a></li>
+                <li><a href="{{ path('artisan-create_article') }}">Créer un article</a></li>
+            </ul>
+        </nav>
 
     <div class="header__auth">
         {% if app.user %}
@@ -28,7 +20,7 @@
                 {% elseif 'ROLE_CLIENT' in app.user.roles %}
                     <a class="auth__user" href="{{ path('client-homeboard') }}" id="Account">Profil</a>
                 {% elseif 'ROLE_ARTISAN' in app.user.roles %}
-                    <a class="auth__user" href="{{ path('artisan-homeboard') }}">Profil</a>
+                    <a class="auth__user" href="{{ path('artisan-homeboard') }}">Mon profil</a>
                 {% endif %}
 
                 <a class="auth__user" href="{{ path('logout') }}">Déconnexion</a>

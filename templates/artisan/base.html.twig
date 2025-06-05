@@ -10,16 +10,31 @@
 <body class="body-homeboard">
 
 {% include 'artisan/partials/_header.html.twig' with { 'currentRoute': app.request.attributes.get('_route') } %}
+{% include 'artisan/partials/_sidebar.html.twig' with { 'currentRoute': app.request.attributes.get('_route') } %}
+
 
 {% block main %}
+
 
 {% endblock main %}
 {% block javascripts %}
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const mainContainer = document.querySelector("#main-content");
+            const sectionContainer = document.querySelector("main section"); // ✅ Cible uniquement la première section
             const links = document.querySelectorAll("[data-link]");
+            const chatContainer = document.querySelector("#chat-container"); // ✅ Div contenant les messages
 
+            // 🔥 Fonction pour scroller automatiquement en bas
+            function scrollToBottom() {
+                if (chatContainer) {
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }
+            }
+
+            // ✅ Scroll automatique à l'ouverture de la conversation
+            scrollToBottom();
+
+            // 📌 Gestion de la navigation AJAX
             links.forEach(link => {
                 link.addEventListener("click", event => {
                     event.preventDefault(); // Empêche le rechargement complet
@@ -29,21 +44,78 @@
                         .then(html => {
                             const parser = new DOMParser();
                             const doc = parser.parseFromString(html, "text/html");
-                            const newContent = doc.querySelector("#main-content")?.innerHTML;
+                            const newContent = doc.querySelector("main section")?.innerHTML;
+
                             if (newContent) {
-                                mainContainer.innerHTML = newContent;
+                                sectionContainer.innerHTML = newContent; // ✅ Met à jour uniquement la section ciblée
                                 history.pushState(null, "", link.href);
+                                scrollToBottom(); // ✅ Scroll après le changement de conversation
+
+                                // ✅ Ajoute une classe "active" au lien cliqué
+                                links.forEach(l => l.classList.remove("active")); // Retire "active" des autres liens
+                                link.classList.add("active"); // Ajoute "active" au lien actuel
                             } else {
-                                console.error("Erreur : Le contenu de <main> n'a pas été trouvé.");
+                                console.error("Erreur : Le contenu de la section n'a pas été trouvé.");
                             }
                         })
                         .catch(error => console.error("Erreur de chargement :", error));
                 });
             });
 
+            // 🔄 Correction du retour arrière (popstate) pour recharger seulement la section ciblée
             window.addEventListener("popstate", () => {
-                location.reload();
+                fetch(location.href)
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, "text/html");
+                        const newContent = doc.querySelector("main section")?.innerHTML;
+
+                        if (newContent) {
+                            sectionContainer.innerHTML = newContent;
+                            scrollToBottom(); // ✅ Scroll après retour arrière
+                        }
+                    })
+                    .catch(error => console.error("Erreur lors du retour arrière :", error));
             });
+
+            // ✨ Ajout de l'envoi AJAX du message sans rechargement
+            const form = document.querySelector("form");
+            if (form) {
+                const messageInput = form.querySelector("textarea");
+                const messagesContainer = document.querySelector(".homeboardInfo");
+
+                form.addEventListener("submit", event => {
+                    event.preventDefault(); // Empêche le rechargement
+
+                    const formData = new FormData(form);
+
+                    fetch(form.action, {
+                        method: "POST",
+                        body: formData
+                    })
+                        .then(response => response.text())
+                        .then(data => {
+                            messagesContainer.innerHTML += `
+                    <div class="message sent">
+                        <p>${messageInput.value}</p>
+                        <small>À l’instant</small>
+                    </div>`;
+
+                            messageInput.value = ""; // Vide le champ après envoi
+                            scrollToBottom(); // ✅ Scroll après ajout du message
+                        })
+                        .catch(error => console.error("Erreur d'envoi du message :", error));
+                });
+
+                // 🛠️ Permet d'envoyer le message avec "Entrée"
+                messageInput.addEventListener("keydown", event => {
+                    if (event.key === "Enter" && !event.shiftKey) {
+                        event.preventDefault(); // Empêche le retour à la ligne
+                        form.dispatchEvent(new Event("submit")); // Déclenche l'envoi du formulaire
+                    }
+                });
+            }
         });
     </script>
 {% endblock %}

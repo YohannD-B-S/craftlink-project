@@ -388,12 +388,48 @@ body h1 {
   box-shadow: 30px 30px 40px rgba(0, 0, 0, 0.5); /* Ombre plus prononcée */
 }
 
+.active-link {
+  color: #C68E3A !important;
+  font-weight: bold;
+}
+
 .register-page {
   background-color: white;
 }
 
 main.login {
   min-height: 80vh;
+}
+
+.messages {
+  background-color: transparent;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.message.sent {
+  background-color: #819C68;
+  color: white;
+  align-self: flex-end;
+}
+
+.message.received {
+  background-color: #f1f1f1;
+  color: black;
+  align-self: flex-start;
+}
+
+.sidebar-conversation {
+  background-color: transparent;
 }
 
 /*# sourceMappingURL=main.css.map */

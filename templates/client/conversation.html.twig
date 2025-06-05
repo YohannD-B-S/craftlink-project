@@ -1,12 +1,42 @@
 {% extends 'client/base.html.twig' %}
 
-{% block title %}💬 Conversation{% endblock %}
+{% block title %}💬 Ma Conversation{% endblock %}
 
 {% block main %}
-    <h2>Conversation avec {{ conversation.getParticipantTwo.firstName }}</h2>
+    <main class="homeboard">
+    <section class="homeboardInfo">
+    <div class="conversation-container">
+        {% if conversation is defined and conversation %}
+            {% set interlocutor = (conversation.getParticipantOne == app.user) ? conversation.getParticipantTwo : conversation.getParticipantOne %}
+            <h2>Conversation avec {{ interlocutor.firstName }}</h2>
+        {% else %}
+            <h2>Conversation introuvable</h2>
+        {% endif %}
 
-    <h3>Envoyer un message</h3>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+        <div class="messages">
+            {% if messages is defined and messages|length > 0 %}
+                {% for message in messages %}
+                    <div class="message {% if message.sender == app.user %}sent{% else %}received{% endif %}
+                        {% if not message.isRead and message.recipient == app.user %}unread{% endif %}">
+                        <p><strong>{{ message.sender.firstName }} :</strong> {{ message.content }}</p>
+                        <span class="date">{{ message.sentAt|date('d/m/Y H:i') }}</span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="no-messages">Aucun message pour le moment.</p>
+            {% endif %}
+        </div>
+
+        <!-- Formulaire d’envoi de message -->
+        {% if form is defined %}
+            <h3>Envoyer un message</h3>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        {% else %}
+            <p class="error">Le formulaire de réponse n'est pas disponible.</p>
+        {% endif %}
+    </div>
+    </section>
+    </main>
 {% endblock %}
