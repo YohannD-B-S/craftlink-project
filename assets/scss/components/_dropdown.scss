@@ -1,0 +1,47 @@
+@use '../abstracts/index' as *;
+
+.dropdown.open{
+         &:hover {
+        background-color: unset;
+          }
+
+}
+
+.dropdown:first-of-type{
+    margin-top: 2rem;
+}
+
+.dropdown {
+    position: relative;
+    padding: 1rem 1rem;
+     &:hover {
+        background-color: $secondary-color;
+          }
+
+    a {
+        color: white;
+        &:hover {
+            color: black;
+          }
+        max-width: 280px;
+    }
+
+    li {
+        &:hover {
+        background-color: $secondary-color;
+          }
+    }
+  
+    .dropdown-submenu {
+      li {
+        width: 100%;
+        margin: 0 auto;
+        padding: 1rem 1rem;
+        gap: 1.325rem;
+
+        &:hover {
+        background-color: $secondary-color;
+          }
+      }
+    }
+}

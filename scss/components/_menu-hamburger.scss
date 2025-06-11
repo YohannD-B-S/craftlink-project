@@ -1,0 +1,81 @@
+@use '../abstracts/index' as *;
+
+// Commun
+header {
+    /* Hamburger button hidden by default */
+#hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 5vh;
+    color: black;
+    cursor: pointer;
+    margin-right: 5%;
+}
+
+/* Mobile menu */
+.mobile {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    min-width: 300px;
+    background-color: $primary-color;
+    color: white;
+    transition: right 0.3s ease;
+    z-index: 500;
+    padding: 2rem 1rem;
+
+    @media (min-width: $breakpoint-sm) {
+    min-width: 360px;
+    }
+}
+
+.mobile ul {
+    list-style: none;
+    padding: 0;
+}
+
+.mobile li {
+    margin-bottom: 0.5rem;
+}
+
+.mobile .dropdown-submenu {
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    display: none;
+}
+
+.mobile .dropdown.open .dropdown-submenu {
+    display: block;
+}
+
+/* Responsive rules */
+@media screen and (max-width: $breakpoint-xl) {
+    #hamburger {
+        display: block;
+    }
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: black;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 499;
+}
+
+}

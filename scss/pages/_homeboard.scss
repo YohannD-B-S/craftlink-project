@@ -1,0 +1,30 @@
+@use '../abstracts/index' as *;
+
+body{
+  h1{
+    color: $secondary-color;
+  }
+}
+
+.body-homeboard{
+  background-color: $primary-color;
+}
+
+
+.homeboard{
+  border-radius: 20px;
+  min-height: 85vh;
+  background-color: $background-color;
+  background-image: url("../asset/image/craftlinkgrey.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 600px;
+  width: 85%;
+  position: absolute;
+  right: 0px;
+  box-shadow: 30px 30px 40px rgba(0, 0, 0, 0.5); /* Ombre plus prononcée */
+}
+.active-link {
+  color: #C68E3A !important;
+  font-weight: bold;
+}

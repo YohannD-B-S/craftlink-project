@@ -1,0 +1,7 @@
+@use '../abstracts/index' as *;
+
+.btn-submit {
+  @include bouton;
+  width: 100%;
+  font-size: 1.2rem;
+}

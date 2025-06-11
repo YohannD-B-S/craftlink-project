@@ -1,0 +1,41 @@
+@use '../abstracts/index' as *;
+
+#footer{
+  @include flex(row, space-between, center);
+  background: linear-gradient(
+                  to bottom, rgb( 247 , 243 , 233)
+                  rgb(227, 183, 120) 50%,
+                  $primary-color 100%);
+  padding:20px;
+  h3{
+    font-size: 2rem;
+    color: $primary-color;
+  }
+  nav{
+    width:50%;
+    .nav__list{
+      display: flex;
+      justify-content: space-between;
+      @include bouton;
+    }
+    ul{
+      display: flex;
+      justify-content: space-between;
+      li{
+        a{
+          color: $primary-color;
+          transition: all 0.3s ease-in-out;
+          &:hover{
+            color: $secondary-color;
+          }
+        }
+      }
+    }
+  }
+}
+.footer__logo{
+  width: 200px;
+  img{
+    width: 100%;
+  }
+}

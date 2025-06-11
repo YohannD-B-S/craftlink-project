@@ -18,8 +18,60 @@
                 <li><a href="#sectionArticle3Home">Nos objectifs</a></li>
             </ul>
         </nav>
-    {% endif %}
 
+    <!-- Téléphone et tablette -->
+     <button id="hamburger" class="hamburger">
+                <i class="fas fa-bars"></i>
+     </button>
+
+      <div id="mobile" class="mobile">
+            <button id="close-mobile" class="close-button">
+                <i class="fas fa-times"></i>
+            </button>
+            <ul>
+            {% if app.user %}
+                <li class="dropdown">
+                    <a>Accueil</a>
+                    <ul class="dropdown-submenu">
+                        <li><a href="{{ path('index') }}#sectionArticle1Home">Qui sommes nous ?</a></li>
+                        <li><a href="{{ path('index') }}#sectionArticle2Home">Notre innovation</a></li>
+                        <li><a href="{{ path('index') }}#sectionArticle3Home">Nos objectifs</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a>S'inscrire</a>
+                    <ul class="dropdown-submenu">
+                        <li><a href="{{ path('register_client') }}">Particulier</a></li>
+                        <li><a href="{{ path('register_artisan') }}">Entreprise</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="login" href="{{ path('logout') }}"> <i class="fas fa-right-from-bracket"></i></a>
+                </li>
+            {% else %}
+                <li class="dropdown">
+                    <a>Accueil</a>
+                    <ul class="dropdown-submenu">
+                        <li><a href="{{ path('index') }}#sectionArticle1Home">Qui sommes nous ?</a></li>
+                        <li><a href="{{ path('index') }}#sectionArticle2Home">Notre innovation</a></li>
+                        <li><a href="{{ path('index') }}#sectionArticle3Home">Nos objectifs</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a>S'inscrire</a>
+                    <ul class="dropdown-submenu">
+                        <li><a href="{{ path('register_client') }}">Particulier</a></li>
+                        <li><a href="{{ path('register_artisan') }}">Entreprise</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="{{ path('login') }}">Se connecter</a>
+                </li>
+            {% endif %}
+            </ul>
+        </div>
+        <div id="overlay" class="overlay"></div>
+    {% endif %}
 
     <div class="header__auth">
         {% if app.user %}

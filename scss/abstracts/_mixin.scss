@@ -1,0 +1,27 @@
+@use 'variables' as *;
+
+@mixin bouton {
+  padding: 5px 15px;
+  border: solid 1px $primary-color;
+  color: $primary-color;
+  display: block;
+  margin: 10px 0;
+  border-radius: 100vmax;
+  text-align: center;
+  transition: 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Ombre discrète par défaut
+
+  &:hover {
+    background-color: $primary-color;
+    color: $secondary-color;
+    transform: translateY(-3px); // Le bouton se soulève
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); // Ombre plus marquée pour accentuer le relief
+  }
+}
+
+@mixin flex ($direction: row, $justify: space-between, $align: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}

@@ -1,0 +1,31 @@
+@use '../abstracts/index' as *;
+
+.messages {
+  background-color: transparent;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column; // Garde l'ordre classique
+}
+
+.message {
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.message.sent {
+  background-color: $highlight-color;
+  color: white;
+  align-self: flex-end;
+}
+
+.message.received {
+  background-color: #f1f1f1;
+  color: black;
+  align-self: flex-start;
+}
+  .sidebar-conversation {
+    background-color: transparent;
+  }
